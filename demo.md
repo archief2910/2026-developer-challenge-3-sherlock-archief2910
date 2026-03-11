@@ -1,1 +1,1 @@
-https://example.com/demo-video-link
+https://drive.google.com/video-link
