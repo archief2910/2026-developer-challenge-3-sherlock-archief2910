@@ -5,23 +5,18 @@ set -euo pipefail
 # web.sh — Web visualizer
 #
 # Starts the web visualizer server.
-#
-# Behavior:
-#   - Reads PORT env var (default: 3000)
-#   - Prints the URL (e.g., http://127.0.0.1:3000) to stdout
-#   - Keeps running until terminated (CTRL+C / SIGTERM)
-#   - Must serve GET /api/health -> 200 { "ok": true }
-#
-# TODO: Replace the stub below with your web server start command.
 ###############################################################################
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PORT="${PORT:-3000}"
 
-# TODO: Start your web server here, for example:
-#   exec node server.js
-#   exec python -m http.server "$PORT"
-#   exec cargo run --release -- --port "$PORT"
+cd "$SCRIPT_DIR"
 
-echo "Error: Web visualizer is not yet implemented" >&2
-echo "Set up your web server to listen on port $PORT" >&2
-exit 1
+# Build web server if not already built
+if [[ ! -f bin/sherlock-web ]]; then
+  echo "Building sherlock-web..." >&2
+  go build -o bin/sherlock-web ./cmd/web
+fi
+
+export PORT
+exec "$SCRIPT_DIR/bin/sherlock-web"
