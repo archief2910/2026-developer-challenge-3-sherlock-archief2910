@@ -80,9 +80,15 @@ func AnalyzeBlocks(parsedBlocks []block.ParsedBlock, blkFilename string) *FileAn
 		blockFeeRates := []float64{}
 		blockScriptDist := make(map[string]int)
 
+		// Build block-level address map for cross-transaction address reuse detection.
+		// Reference: README — "Detect when the same address appears in both inputs
+		// and outputs of a transaction, or across multiple transactions within the
+		// same block."
+		blockAddrMap := heuristics.BuildBlockAddressMap(pb.Transactions)
+
 		for j, tx := range pb.Transactions {
-			// Run all heuristics
-			h := heuristics.AnalyzeTransaction(tx)
+			// Run all 9 heuristics with cross-tx address reuse and nLockTime support
+			h := heuristics.AnalyzeTransaction(tx, j, blockAddrMap, pb.Height)
 			classification := heuristics.ClassifyTransaction(tx, h)
 
 			txResults[j] = TxAnalysisResult{

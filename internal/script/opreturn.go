@@ -87,11 +87,26 @@ func DecodeOpReturn(scriptPubKey []byte) OpReturnResult {
 		dataUTF8 = &s
 	}
 
+	// Protocol classification by payload prefix.
+	// Each prefix is the hex encoding of the protocol's magic bytes.
+	// Reference: arXiv 2411.10325v1 — practical colored coin detection.
 	protocol := "unknown"
 	if strings.HasPrefix(dataHex, "6f6d6e69") {
+		// "omni" in ASCII — Omni Layer (formerly Mastercoin)
 		protocol = "omni"
 	} else if strings.HasPrefix(dataHex, "0109f91102") {
+		// OpenTimestamps calendar commitment marker
 		protocol = "opentimestamps"
+	} else if strings.HasPrefix(dataHex, "434e545250525459") {
+		// "CNTRPRTY" in ASCII — Counterparty protocol magic bytes
+		// Reference: https://counterparty.io — ARC4-encrypted data starts with CNTRPRTY after decryption
+		protocol = "counterparty"
+	} else if strings.HasPrefix(dataHex, "56424b") {
+		// "VBK" in ASCII — Veriblock proof-of-proof
+		protocol = "veriblock"
+	} else if strings.HasPrefix(dataHex, "4f41") {
+		// "OA" in ASCII — Open Assets / EPOBC colored coins
+		protocol = "openassets"
 	}
 
 	return OpReturnResult{
