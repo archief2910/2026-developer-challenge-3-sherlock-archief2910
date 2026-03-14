@@ -212,22 +212,13 @@ func computeFeeStats(feeRates []float64) FeeRateStats {
 
 	minVal := sorted[0]
 
-	// Use 95th percentile as max to handle extreme outliers
-	// Reference: Standard statistical practice for handling outliers in fee distributions
-	maxIdx := int(float64(len(sorted)) * 0.95)
-	if maxIdx >= len(sorted) {
-		maxIdx = len(sorted) - 1
-	}
-	if maxIdx < 0 {
-		maxIdx = 0
-	}
-	maxVal := sorted[maxIdx]
+	maxVal := sorted[len(sorted)-1]
 
 	// Median
 	var median float64
 	n := len(sorted)
 	if n%2 == 0 {
-		median = (sorted[n/2-1] + sorted[n/2-1]) / 2.0
+		median = (sorted[n/2-1] + sorted[n/2]) / 2.0
 	} else {
 		median = sorted[n/2]
 	}
