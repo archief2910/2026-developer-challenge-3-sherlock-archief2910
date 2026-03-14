@@ -105,9 +105,15 @@ func GenerateMarkdownReport(result *analysis.FileAnalysisResult) string {
 
 		// Heuristic findings summary
 		sb.WriteString("#### Heuristic Findings\n\n")
-		if blk.Transactions != nil {
-			heuristicCounts := make(map[string]int)
-			classificationCounts := make(map[string]int)
+
+		// Use stored counts if available, otherwise compute from transactions
+		heuristicCounts := blk.AnalysisSummary.HeuristicCounts
+		classificationCounts := blk.AnalysisSummary.ClassificationCounts
+
+		if len(heuristicCounts) == 0 && blk.Transactions != nil {
+			// Fallback: compute from transactions if available
+			heuristicCounts = make(map[string]int)
+			classificationCounts = make(map[string]int)
 
 			for _, tx := range blk.Transactions {
 				classificationCounts[tx.Classification]++
@@ -119,7 +125,9 @@ func GenerateMarkdownReport(result *analysis.FileAnalysisResult) string {
 					}
 				}
 			}
+		}
 
+		if len(heuristicCounts) > 0 {
 			sb.WriteString("| Heuristic | Transactions Flagged |\n")
 			sb.WriteString("|-----------|---------------------|\n")
 			hIDs := make([]string, 0, len(heuristicCounts))
@@ -147,20 +155,23 @@ func GenerateMarkdownReport(result *analysis.FileAnalysisResult) string {
 			sb.WriteString("\n")
 
 			// Notable transactions (CoinJoin, Consolidation)
-			sb.WriteString("#### Notable Transactions\n\n")
-			notableCount := 0
-			for _, tx := range blk.Transactions {
-				if tx.Classification == "coinjoin" || tx.Classification == "consolidation" || tx.Classification == "batch_payment" {
-					if notableCount < 10 { // Limit to 10 notable transactions
-						sb.WriteString(fmt.Sprintf("- **%s** `%s`\n", tx.Classification, tx.Txid))
-						notableCount++
+			// Only show if we have actual transaction data
+			if blk.Transactions != nil {
+				sb.WriteString("#### Notable Transactions\n\n")
+				notableCount := 0
+				for _, tx := range blk.Transactions {
+					if tx.Classification == "coinjoin" || tx.Classification == "consolidation" || tx.Classification == "batch_payment" {
+						if notableCount < 10 { // Limit to 10 notable transactions
+							sb.WriteString(fmt.Sprintf("- **%s** `%s`\n", tx.Classification, tx.Txid))
+							notableCount++
+						}
 					}
 				}
+				if notableCount == 0 {
+					sb.WriteString("No notable CoinJoin, consolidation, or batch payment transactions found.\n")
+				}
+				sb.WriteString("\n")
 			}
-			if notableCount == 0 {
-				sb.WriteString("No notable CoinJoin, consolidation, or batch payment transactions found.\n")
-			}
-			sb.WriteString("\n")
 		}
 
 		sb.WriteString("---\n\n")

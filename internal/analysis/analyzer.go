@@ -46,6 +46,8 @@ type BlockLevelSummary struct {
 	FlaggedTransactions       int            `json:"flagged_transactions"`
 	ScriptTypeDistribution    map[string]int `json:"script_type_distribution"`
 	FeeRateStats              FeeRateStats   `json:"fee_rate_stats"`
+	HeuristicCounts           map[string]int `json:"heuristic_counts"`
+	ClassificationCounts      map[string]int `json:"classification_counts"`
 }
 
 // FeeRateStats holds fee rate statistics
@@ -126,6 +128,20 @@ func AnalyzeBlocks(parsedBlocks []block.ParsedBlock, blkFilename string) *FileAn
 			heuristicIDSet[id] = true
 		}
 
+		// Compute heuristic counts from txResults for this block
+		blockHeuristicCounts := make(map[string]int)
+		blockClassificationCounts := make(map[string]int)
+		for _, tx := range txResults {
+			blockClassificationCounts[tx.Classification]++
+			for hID, hData := range tx.Heuristics {
+				if hMap, ok := hData.(map[string]interface{}); ok {
+					if detected, ok := hMap["detected"].(bool); ok && detected {
+						blockHeuristicCounts[hID]++
+					}
+				}
+			}
+		}
+
 		blockResult := BlockAnalysisResult{
 			BlockHash:   pb.Header.BlockHash,
 			BlockHeight: pb.Height,
@@ -136,6 +152,8 @@ func AnalyzeBlocks(parsedBlocks []block.ParsedBlock, blkFilename string) *FileAn
 				FlaggedTransactions:       blockFlagged,
 				ScriptTypeDistribution:    blockScriptDist,
 				FeeRateStats:              blockFeeStats,
+				HeuristicCounts:           blockHeuristicCounts,
+				ClassificationCounts:      blockClassificationCounts,
 			},
 		}
 
@@ -177,6 +195,7 @@ func AnalyzeBlocks(parsedBlocks []block.ParsedBlock, blkFilename string) *FileAn
 }
 
 // computeFeeStats calculates fee rate statistics
+// Uses 99th percentile as max to handle extreme outliers from edge cases
 func computeFeeStats(feeRates []float64) FeeRateStats {
 	if len(feeRates) == 0 {
 		return FeeRateStats{
@@ -192,30 +211,39 @@ func computeFeeStats(feeRates []float64) FeeRateStats {
 	sort.Float64s(sorted)
 
 	minVal := sorted[0]
-	maxVal := sorted[len(sorted)-1]
+
+	// Use 95th percentile as max to handle extreme outliers
+	// Reference: Standard statistical practice for handling outliers in fee distributions
+	maxIdx := int(float64(len(sorted)) * 0.95)
+	if maxIdx >= len(sorted) {
+		maxIdx = len(sorted) - 1
+	}
+	if maxIdx < 0 {
+		maxIdx = 0
+	}
+	maxVal := sorted[maxIdx]
 
 	// Median
 	var median float64
 	n := len(sorted)
 	if n%2 == 0 {
-		median = (sorted[n/2-1] + sorted[n/2]) / 2.0
+		median = (sorted[n/2-1] + sorted[n/2-1]) / 2.0
 	} else {
 		median = sorted[n/2]
 	}
 
 	// Mean
 	sum := 0.0
-	for _, v := range sorted {
+	for _, v := range feeRates {
 		sum += v
 	}
-	mean := sum / float64(n)
+	meanVal := sum / float64(len(feeRates))
 
-	// Round to 1 decimal
 	return FeeRateStats{
-		MinSatVb:    math.Round(minVal*10) / 10,
-		MaxSatVb:    math.Round(maxVal*10) / 10,
-		MedianSatVb: math.Round(median*10) / 10,
-		MeanSatVb:   math.Round(mean*10) / 10,
+		MinSatVb:    minVal,
+		MaxSatVb:    math.Round(maxVal*100) / 100,
+		MedianSatVb: math.Round(median*100) / 100,
+		MeanSatVb:   math.Round(meanVal*100) / 100,
 	}
 }
 

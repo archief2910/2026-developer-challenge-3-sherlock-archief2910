@@ -484,7 +484,10 @@ func analyzeBlockData(raw RawBlock, undos []UndoData) (*ParsedBlock, error) {
 		if !isCoinbase {
 			pt.FeeSats = pt.TotalInputSats - pt.TotalOutputSats
 			if vbytes > 0 {
-				pt.FeeRateSatVb = math.Round(float64(pt.FeeSats)/float64(vbytes)*100) / 100
+				rawFeeRate := math.Round(float64(pt.FeeSats)/float64(vbytes)*100) / 100
+				pt.FeeRateSatVb = rawFeeRate
+				// Don't cap here - let the aggregator handle outliers
+				// Reference: Fee rates will be post-processed to handle extreme outliers
 			}
 		}
 
