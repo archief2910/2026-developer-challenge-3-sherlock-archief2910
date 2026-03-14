@@ -46,10 +46,10 @@ type ChangeDetectionResult struct {
 // Reference: Schnoering & Vazirgiannis, arXiv 2023 — structural fingerprints
 // for JoinMarket, Wasabi, and Whirlpool.
 type CoinJoinResult struct {
-	Detected          bool   `json:"detected"`
-	EqualOutputCount  int    `json:"equal_output_count,omitempty"`
-	InputTypeDiversity int   `json:"input_type_diversity,omitempty"`
-	Confidence        string `json:"confidence,omitempty"`
+	Detected           bool   `json:"detected"`
+	EqualOutputCount   int    `json:"equal_output_count,omitempty"`
+	InputTypeDiversity int    `json:"input_type_diversity,omitempty"`
+	Confidence         string `json:"confidence,omitempty"`
 }
 
 // AddressReuseResult extends HeuristicResult with reuse-specific fields.
@@ -57,10 +57,10 @@ type CoinJoinResult struct {
 // both inputs and outputs of a transaction, or across multiple transactions
 // within the same block."
 type AddressReuseResult struct {
-	Detected       bool     `json:"detected"`
+	Detected        bool     `json:"detected"`
 	ReusedAddresses []string `json:"reused_addresses,omitempty"`
-	CrossTx        bool     `json:"cross_tx,omitempty"`
-	Confidence     string   `json:"confidence,omitempty"`
+	CrossTx         bool     `json:"cross_tx,omitempty"`
+	Confidence      string   `json:"confidence,omitempty"`
 }
 
 // OpReturnResult extends HeuristicResult with OP_RETURN-specific fields.
@@ -76,8 +76,8 @@ type OpReturnResult struct {
 // RoundNumberResult extends HeuristicResult with round-number-specific fields.
 // Reference: BlockSci change_by_power_of_ten_value (Kalodner et al., 2020).
 type RoundNumberResult struct {
-	Detected           bool   `json:"detected"`
-	RoundOutputCount   int    `json:"round_output_count,omitempty"`
+	Detected            bool   `json:"detected"`
+	RoundOutputCount    int    `json:"round_output_count,omitempty"`
 	HighestDenomination string `json:"highest_denomination,omitempty"`
 	Confidence          string `json:"confidence,omitempty"`
 }
@@ -309,6 +309,7 @@ func ClassifyTransaction(tx *block.ParsedTransaction, h TxHeuristics) string {
 //   - False positives for CoinJoin (mitigated by cross-heuristic downgrade)
 //   - False positives for PayJoin (Ghesmati et al., 2021)
 //   - Single-input transactions always false, even if entity owns many UTXOs
+//
 // =======================================================================
 func analyzeCIOH(tx *block.ParsedTransaction) HeuristicResult {
 	numInputs := len(tx.Raw.Inputs)
@@ -330,28 +331,46 @@ func analyzeCIOH(tx *block.ParsedTransaction) HeuristicResult {
 // Identify the likely change output — the output that returns leftover
 // funds to the sender's wallet rather than going to the payment recipient.
 //
-// Four methods applied in priority order (highest confidence first):
+// Six methods applied in priority order (highest confidence first):
 //
 // Method 1: Script type matching (high confidence)
-//   BlockSci change_by_address_type: "If all inputs are of one address type,
-//   it is likely that the change output has the same type."
-//   Reference: Kalodner et al. (2020), BlockSci heuristics documentation.
+//
+//	BlockSci change_by_address_type: "If all inputs are of one address type,
+//	it is likely that the change output has the same type."
+//	Reference: Kalodner et al. (2020), BlockSci heuristics documentation.
 //
 // Method 2: Optimal change (high confidence)
-//   BlockSci change_by_optimal_change: "If there exists an output that is
-//   smaller than any of the inputs it is likely the change. If a change
-//   output was larger than the smallest input, then the coin selection
-//   algorithm wouldn't need to add the input in the first place."
-//   Reference: Kalodner et al. (2020), BlockSci heuristics documentation.
+//
+//	BlockSci change_by_optimal_change: "If there exists an output that is
+//	smaller than any of the inputs it is likely the change. If a change
+//	output was larger than the smallest input, then the coin selection
+//	algorithm wouldn't need to add the input in the first place."
+//	Reference: Kalodner et al. (2020), BlockSci heuristics documentation.
 //
 // Method 3: Round number analysis (medium confidence)
-//   Payment amounts tend to be round numbers; non-round outputs are more
-//   likely change. Reference: Androulaki et al. (2012) — first proposed
-//   round-value-based change detection (termed "Shadow Addresses").
 //
-// Method 4: Value analysis (low confidence)
-//   For 2-output transactions, the smaller output is tentatively identified
-//   as change. Weakest signal — purely statistical fallback.
+//	Payment amounts tend to be round numbers; non-round outputs are more
+//	likely change. Reference: Androulaki et al. (2012) — first proposed
+//	round-value-based change detection (termed "Shadow Addresses").
+//
+// Method 4: nLockTime wallet fingerprinting (medium confidence)
+//
+//	Bitcoin Core sets nLockTime to the current block height to prevent fee
+//	sniping. If tx.Locktime matches block height (±2), combined with script
+//	type matching, identifies change. Reference: Möser & Narayanan (2021);
+//	BlockSci change_by_locktime.
+//
+// Method 5: Fresh-address heuristic (low confidence)
+//
+//	Wallets generate fresh addresses for change. If exactly one output
+//	address is unique within the block, it's likely change. Reference:
+//	Meiklejohn et al. (2013); BlockSci change_by_client_change_address_behavior.
+//	Note: block-level freshness is a weaker proxy for full-chain freshness.
+//
+// Method 6: Value analysis (low confidence)
+//
+//	For 2-output transactions, the smaller output is tentatively identified
+//	as change. Weakest signal — purely statistical last-resort fallback.
 //
 // Known limitations:
 //   - Address reuse rate has dropped below 10% on modern Bitcoin (Gong et al., 2025),
@@ -359,6 +378,11 @@ func analyzeCIOH(tx *block.ParsedTransaction) HeuristicResult {
 //   - Fails when both payment and change use the same script type.
 //   - Privacy-conscious wallets may add noise to output amounts.
 //   - Batch payments have no change output.
+//   - nLockTime fingerprinting only works for Bitcoin Core; other wallets set
+//     nLockTime = 0.
+//   - Fresh-address check is block-level only — full-chain freshness would
+//     be more accurate but requires full UTXO set.
+//
 // =======================================================================
 func analyzeChangeDetection(tx *block.ParsedTransaction, blockHeight int64, blockAddrMap BlockAddressMap) ChangeDetectionResult {
 	numOutputs := len(tx.Raw.Outputs)
@@ -414,6 +438,9 @@ func analyzeChangeDetection(tx *block.ParsedTransaction, blockHeight int64, bloc
 	// BlockSci change_by_optimal_change: If an output is smaller than the
 	// smallest input, it's likely change. Coin selection wouldn't include
 	// an input if the change exceeded its value.
+	// However, in peeling chain patterns (extreme asymmetry), the LARGER
+	// output is the change going back to the peeler, not the smaller.
+	// Reference: Kappos et al. (2022) "How to Peel a Million".
 	if numOutputs == 2 && len(tx.InputValues) > 0 {
 		minInputVal := tx.InputValues[0]
 		for _, iv := range tx.InputValues[1:] {
@@ -423,9 +450,35 @@ func analyzeChangeDetection(tx *block.ParsedTransaction, blockHeight int64, bloc
 		}
 
 		if minInputVal > 0 {
-			// Check which output(s) are smaller than the smallest input
-			out0Smaller := tx.OutputValues[0] > 0 && tx.OutputValues[0] < minInputVal
-			out1Smaller := tx.OutputValues[1] > 0 && tx.OutputValues[1] < minInputVal
+			// Check if there's extreme asymmetry (peeling chain pattern)
+			// In peeling chain, larger output = change
+			val0 := tx.OutputValues[0]
+			val1 := tx.OutputValues[1]
+			if val0 > 0 && val1 > 0 {
+				ratio := float64(val0) / float64(val1)
+				if ratio > 1 {
+					ratio = 1.0 / ratio
+				}
+				// Extreme asymmetry (< 1% ratio): larger output is change
+				// This overrides the standard optimal_change logic
+				// Only trigger on 99:1 or stronger splits (real peeling chains)
+				if ratio < 0.01 {
+					changeIdx := 0
+					if val0 < val1 {
+						changeIdx = 1
+					}
+					return ChangeDetectionResult{
+						Detected:        true,
+						LikelyChangeIdx: changeIdx,
+						Method:          "optimal_change_peeling",
+						Confidence:      "high",
+					}
+				}
+			}
+
+			// Standard optimal_change: check which output(s) are smaller than the smallest input
+			out0Smaller := val0 > 0 && val0 < minInputVal
+			out1Smaller := val1 > 0 && val1 < minInputVal
 
 			if out0Smaller && !out1Smaller {
 				return ChangeDetectionResult{
@@ -471,27 +524,7 @@ func analyzeChangeDetection(tx *block.ParsedTransaction, blockHeight int64, bloc
 		}
 	}
 
-	// ----- Method 4: Value analysis (low confidence) -----
-	// For 2-output transactions, the smaller output is tentatively change.
-	// This is the weakest signal — purely statistical.
-	if numOutputs == 2 {
-		if tx.OutputValues[0] < tx.OutputValues[1] {
-			return ChangeDetectionResult{
-				Detected:        true,
-				LikelyChangeIdx: 0,
-				Method:          "value_analysis",
-				Confidence:      "low",
-			}
-		}
-		return ChangeDetectionResult{
-			Detected:        true,
-			LikelyChangeIdx: 1,
-			Method:          "value_analysis",
-			Confidence:      "low",
-		}
-	}
-
-	// ----- Method 5: nLockTime wallet fingerprinting (medium confidence) -----
+	// ----- Method 4: nLockTime wallet fingerprinting (medium confidence) -----
 	// Reference: Möser & Narayanan (2021) — wallet fingerprinting via nLockTime.
 	// Reference: BlockSci change_by_locktime — "Bitcoin Core sets the locktime
 	// to the current block height to prevent fee sniping."
@@ -521,7 +554,7 @@ func analyzeChangeDetection(tx *block.ParsedTransaction, blockHeight int64, bloc
 		}
 	}
 
-	// ----- Method 6: Fresh-address heuristic (low confidence) -----
+	// ----- Method 5: Fresh-address heuristic (low confidence) -----
 	// Reference: Meiklejohn et al. (2013) — "The output must be a fresh address
 	// (never before seen on-chain) and it must be the only fresh output."
 	// Reference: BlockSci change_by_client_change_address_behavior — "Most
@@ -562,6 +595,52 @@ func analyzeChangeDetection(tx *block.ParsedTransaction, blockHeight int64, bloc
 		}
 	}
 
+	// ----- Method 6: Value analysis (low confidence) -----
+	// For 2-output transactions, the smaller output is tentatively change.
+	// This is the weakest signal — purely statistical fallback.
+	// However, if we detect a peeling chain pattern (extreme asymmetry),
+	// the LARGER output is the change (the remainder going back to peeler).
+	// Reference: Kappos et al. (2022) "How to Peel a Million" —
+	// in peeling chains, large output = change, small output = payment.
+	if numOutputs == 2 {
+		val0 := tx.OutputValues[0]
+		val1 := tx.OutputValues[1]
+		if val0 > 0 && val1 > 0 {
+			ratio := float64(val0) / float64(val1)
+			if ratio > 1 {
+				ratio = 1.0 / ratio
+			}
+			// Peeling chain pattern: extreme asymmetry (< 1%) means larger = change
+			if ratio < 0.01 {
+				changeIdx := 0
+				if val0 < val1 {
+					changeIdx = 1
+				}
+				return ChangeDetectionResult{
+					Detected:        true,
+					LikelyChangeIdx: changeIdx,
+					Method:          "value_analysis_peeling",
+					Confidence:      "medium", // Upgraded from low — peeling pattern is strong signal
+				}
+			}
+		}
+		// Fallback: smaller output is change (weakest signal)
+		if tx.OutputValues[0] < tx.OutputValues[1] {
+			return ChangeDetectionResult{
+				Detected:        true,
+				LikelyChangeIdx: 0,
+				Method:          "value_analysis",
+				Confidence:      "low",
+			}
+		}
+		return ChangeDetectionResult{
+			Detected:        true,
+			LikelyChangeIdx: 1,
+			Method:          "value_analysis",
+			Confidence:      "low",
+		}
+	}
+
 	return ChangeDetectionResult{Detected: false, LikelyChangeIdx: -1}
 }
 
@@ -579,9 +658,10 @@ func analyzeChangeDetection(tx *block.ParsedTransaction, blockHeight int64, bloc
 // Reference: Meiklejohn et al. (2013) — address reuse links transactions.
 //
 // Detection:
-//   (a) Within-transaction: same address in inputs AND outputs
-//   (b) Cross-transaction: same address appears as input in one tx and
-//       output in another tx within the same block
+//
+//	(a) Within-transaction: same address in inputs AND outputs
+//	(b) Cross-transaction: same address appears as input in one tx and
+//	    output in another tx within the same block
 //
 // Confidence: Always "high" — address reuse is a definitive, non-probabilistic
 // signal. The same cryptographic key is being reused.
@@ -591,6 +671,7 @@ func analyzeChangeDetection(tx *block.ParsedTransaction, blockHeight int64, bloc
 //     (would require full UTXO set tracking)
 //   - Some legitimate use cases: donation addresses, mining pool payouts
 //   - Non-standard scripts may not produce identifiable addresses
+//
 // =======================================================================
 func analyzeAddressReuse(tx *block.ParsedTransaction, txIndex int, blockAddrMap BlockAddressMap) AddressReuseResult {
 	reusedAddrs := []string{}
@@ -655,10 +736,10 @@ func analyzeAddressReuse(tx *block.ParsedTransaction, txIndex int, blockAddrMap 
 
 	if len(reusedAddrs) > 0 {
 		return AddressReuseResult{
-			Detected:       true,
+			Detected:        true,
 			ReusedAddresses: reusedAddrs,
-			CrossTx:        isCrossTx,
-			Confidence:     "high",
+			CrossTx:         isCrossTx,
+			Confidence:      "high",
 		}
 	}
 
@@ -694,6 +775,7 @@ func analyzeAddressReuse(tx *block.ParsedTransaction, txIndex int, blockAddrMap 
 //     (e.g., batch payments to the same value)
 //   - Does not implement BlockSci's subset-sum matching (is_definite_coinjoin)
 //     which would eliminate false positives but is computationally expensive
+//
 // =======================================================================
 func analyzeCoinJoin(tx *block.ParsedTransaction) CoinJoinResult {
 	numInputs := len(tx.Raw.Inputs)
@@ -743,10 +825,10 @@ func analyzeCoinJoin(tx *block.ParsedTransaction) CoinJoinResult {
 	}
 
 	return CoinJoinResult{
-		Detected:          true,
-		EqualOutputCount:  maxEqualCount,
+		Detected:           true,
+		EqualOutputCount:   maxEqualCount,
 		InputTypeDiversity: inputTypeDiversity,
-		Confidence:        confidence,
+		Confidence:         confidence,
 	}
 }
 
@@ -765,13 +847,14 @@ func analyzeCoinJoin(tx *block.ParsedTransaction) CoinJoinResult {
 //
 // Confidence:
 //   - "high"   if inputs >= 10 AND all outputs match predominant input
-//              script type (strong consolidation signal — same wallet)
+//     script type (strong consolidation signal — same wallet)
 //   - "medium" if inputs 5-9 or output types don't fully match input types
 //
 // Known limitations:
 //   - 5-input threshold is a conservative choice; smaller consolidations exist
 //   - Large payments with many UTXOs may be misclassified
 //   - Exchange withdrawal batches can look similar
+//
 // =======================================================================
 func analyzeConsolidation(tx *block.ParsedTransaction) HeuristicResult {
 	numInputs := len(tx.Raw.Inputs)
@@ -852,6 +935,7 @@ func analyzeConsolidation(tx *block.ParsedTransaction) HeuristicResult {
 //   - HD wallets (BIP32) generate consistent address types, making same-type
 //     outputs common even for external payments
 //   - Round number check may miss self-transfers with coincidentally round amounts
+//
 // =======================================================================
 func analyzeSelfTransfer(tx *block.ParsedTransaction) HeuristicResult {
 	numInputs := len(tx.Raw.Inputs)
@@ -956,6 +1040,7 @@ func analyzeSelfTransfer(tx *block.ParsedTransaction) HeuristicResult {
 //     We detect individual peeling-pattern transactions, not the full chain.
 //   - Many simple payments also have 1-input, 2-output with asymmetric values.
 //   - The threshold ratios are engineering choices; optimal values may vary.
+//
 // =======================================================================
 func analyzePeelingChain(tx *block.ParsedTransaction) HeuristicResult {
 	numInputs := len(tx.Raw.Inputs)
@@ -1007,21 +1092,25 @@ func analyzePeelingChain(tx *block.ParsedTransaction) HeuristicResult {
 // (Omni, Open Asset, EPOBC) and why OP_RETURN protocol transactions
 // should be excluded from standard payment heuristics.
 //
-// Protocol detection by payload prefix:
-//   - "6f6d6e69"     → Omni Layer (hex encoding of "omni")
-//   - "0109f91102"   → OpenTimestamps (OTS marker bytes)
-//   - "434e545250525459" → Counterparty (hex encoding of "CNTRPRTY" magic bytes)
-//   - "56424b"       → Veriblock (hex encoding of "VBK")
-//   - "4f41"         → Open Assets / EPOBC (hex encoding of "OA")
+// Protocol detection by verified payload prefix (unencrypted, documented):
+//   - "6f6d6e69" → Omni Layer (hex encoding of "omni")
+//   - "4f41"     → Open Assets / EPOBC (hex encoding of "OA" protocol tag)
+//
+// Protocols intentionally NOT matched (see opreturn.go for full rationale):
+//   - Counterparty: ARC4-encrypted data — raw prefix won't appear
+//   - OpenTimestamps: no fixed prefix — embeds raw 32-byte hash
+//   - Veriblock: identified by 80-byte structure, not fixed prefix
 //
 // Confidence: Always "high" — OP_RETURN is identified by opcode 0x6a,
 // which is a definitive, non-probabilistic detection. Protocol classification
-// confidence varies by prefix reliability.
+// is limited to verified prefixes to avoid false positives.
 //
 // Known limitations:
-//   - Only recognizes 5 protocol families; many others exist
+//   - Only recognizes 2 protocol families with verified prefixes; many others
+//     use OP_RETURN but require protocol-specific decoding (ARC4, structure parsing)
 //   - Does not decode protocol-specific payload contents
 //   - Some OP_RETURN data is arbitrary text, not protocol data
+//
 // =======================================================================
 func analyzeOpReturn(tx *block.ParsedTransaction) OpReturnResult {
 	count := 0
@@ -1071,6 +1160,7 @@ func analyzeOpReturn(tx *block.ParsedTransaction) OpReturnResult {
 //   - False positives when change happens to be a round number
 //   - Some payments use non-round amounts (e.g., fiat-equivalent invoices)
 //   - The definition of "round" is somewhat subjective
+//
 // =======================================================================
 func analyzeRoundNumber(tx *block.ParsedTransaction) RoundNumberResult {
 	roundCount := 0
@@ -1102,8 +1192,8 @@ func analyzeRoundNumber(tx *block.ParsedTransaction) RoundNumberResult {
 		}
 
 		return RoundNumberResult{
-			Detected:           true,
-			RoundOutputCount:   roundCount,
+			Detected:            true,
+			RoundOutputCount:    roundCount,
 			HighestDenomination: bestDenomination,
 			Confidence:          confidence,
 		}

@@ -39,18 +39,18 @@ Six methods are applied in priority order (highest confidence first):
 
 3. **Round number analysis** (medium confidence): For 2-output transactions, if one output is a round BTC amount and the other isn't, the non-round output is likely change. Human-chosen payment amounts tend to be round numbers. Reference: Androulaki et al. (2012) first proposed round-value-based change detection using their "Shadow Addresses" framework.
 
-4. **Value analysis** (low confidence): For 2-output transactions where other methods don't apply, the smaller output is tentatively identified as change — a purely statistical fallback and the weakest signal.
+4. **nLockTime wallet fingerprinting** (medium confidence): Bitcoin Core sets `nLockTime` to the current block height to prevent fee sniping. If `tx.Locktime` matches the block height (±2 for reorg tolerance), the transaction was likely created by Bitcoin Core. Combined with script type matching, the output matching the predominant input type is identified as change. Reference: Möser & Narayanan (2021) — wallet fingerprinting via nLockTime patterns; BlockSci `change_by_locktime` — "Bitcoin Core sets the locktime to the current block height to prevent fee sniping."
 
-5. **nLockTime wallet fingerprinting** (medium confidence): Bitcoin Core sets `nLockTime` to the current block height to prevent fee sniping. If `tx.Locktime` matches the block height (±2 for reorg tolerance), the transaction was likely created by Bitcoin Core. Combined with script type matching, the output matching the predominant input type is identified as change. Reference: Möser & Narayanan (2021) — wallet fingerprinting via nLockTime patterns; BlockSci `change_by_locktime` — "Bitcoin Core sets the locktime to the current block height to prevent fee sniping."
+5. **Fresh-address heuristic** (low confidence): Wallet software generates fresh addresses for change outputs. Within a block, if an output address appears only once across all transactions (i.e., it's "fresh" at the block level), and it's the only fresh output in a 2-output transaction, it is likely change. Reference: Meiklejohn et al. (2013) — "The output must be a fresh address (never before seen on-chain) and it must be the only fresh output"; BlockSci `change_by_client_change_address_behavior` — "Most clients will generate a fresh address for the change." **Limitation:** True freshness requires full blockchain history; block-level is a weaker proxy, hence low confidence.
 
-6. **Fresh-address heuristic** (low confidence): Wallet software generates fresh addresses for change outputs. Within a block, if an output address appears only once across all transactions (i.e., it's "fresh" at the block level), and it's the only fresh output in a 2-output transaction, it is likely change. Reference: Meiklejohn et al. (2013) — "The output must be a fresh address (never before seen on-chain) and it must be the only fresh output"; BlockSci `change_by_client_change_address_behavior` — "Most clients will generate a fresh address for the change." **Limitation:** True freshness requires full blockchain history; block-level is a weaker proxy, hence low confidence.
+6. **Value analysis** (low confidence): For 2-output transactions where all other methods don't apply, the smaller output is tentatively identified as change — a purely statistical last-resort fallback and the weakest signal.
 
 **Cross-heuristic interaction:** If peeling chain detection fires and change detection did not independently identify change, the larger output is assigned as the likely change (the peeler's remaining balance). Reference: BlockSci `change_by_peeling_chain` — "If tx is a peeling chain, returns the smaller output" [as the payment] (Kalodner et al., 2020).
 
 **Confidence model:**
 - `high`: script_type_match or optimal_change — strong structural signals
 - `medium`: round_number or locktime_fingerprint — reasonable but not definitive
-- `low`: value_analysis or fresh_address — weakest signals, statistical or block-level proxies
+- `low`: fresh_address or value_analysis — weakest signals, block-level proxy or statistical fallback
 
 **Known limitations:**
 - Address reuse rate has dropped below 10% on modern Bitcoin, weakening fresh-address-based change heuristics (Gong et al., 2025)
@@ -191,20 +191,22 @@ Reference: Kappos et al. (2022) — "How to Peel a Million: Validating and Expan
 Detects OP_RETURN outputs (unspendable data carriers) and classifies the embedded data by protocol. OP_RETURN outputs are identified by opcode 0x6a.
 
 **How it is detected/computed:**
-Outputs with opcode 0x6a are identified as OP_RETURN. The payload data is extracted from push operations and classified by known protocol prefixes:
-- **Omni Layer**: `6f6d6e69` (hex encoding of "omni")
-- **OpenTimestamps**: `0109f91102` (OTS calendar commitment marker)
-- **Counterparty**: `434e545250525459` (hex encoding of "CNTRPRTY")
-- **Veriblock**: `56424b` (hex encoding of "VBK")
-- **Open Assets**: `4f41` (hex encoding of "OA")
+Outputs with opcode 0x6a are identified as OP_RETURN. The payload data is extracted from push operations and classified by verified, unencrypted protocol prefixes:
+- **Omni Layer**: `6f6d6e69` (hex encoding of "omni") — well-documented, unencrypted prefix
+- **Open Assets**: `4f41` (hex encoding of "OA") — Open Assets Protocol tag per specification (bitcoinwiki.org)
 
 Reference: arXiv 2411.10325v1 documents practical colored coin detection (Omni, Open Asset, EPOBC) and notes that OP_RETURN protocol transactions should be excluded from standard payment heuristics.
 
+**Protocols intentionally not matched** (to avoid false positive/negative identification):
+- **Counterparty**: Data is ARC4-encrypted using the first input's TXID as key; the "CNTRPRTY" magic bytes only appear after decryption, not in raw OP_RETURN data (Source: counterparty.io documentation)
+- **OpenTimestamps**: Embeds a raw 32-byte hash digest directly with no protocol prefix (Source: petertodd.org/opentimestamps)
+- **Veriblock**: PoP transactions use 80-byte OP_RETURN data identified by internal structure (version, height, timestamp), not a fixed ASCII prefix (Source: blockchainresearchlab.org)
+
 **Confidence model:**
-Always **high** for detection — OP_RETURN is identified by a definitive opcode, not a probabilistic pattern. Protocol classification varies by prefix reliability (well-known prefixes are highly reliable).
+Always **high** for detection — OP_RETURN is identified by a definitive opcode, not a probabilistic pattern. Protocol classification is limited to verified, unencrypted prefixes to avoid false identifications.
 
 **Known limitations:**
-- Only recognizes 5 protocol families; many other protocols use OP_RETURN
+- Only recognizes 2 protocol families with verified raw prefixes; other protocols (Counterparty, OpenTimestamps, Veriblock) use encryption or no prefix, requiring protocol-specific decoding
 - Does not decode protocol-specific payload contents
 - Some OP_RETURN data is arbitrary text, not protocol data
 

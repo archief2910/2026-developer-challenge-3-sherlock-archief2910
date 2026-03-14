@@ -88,24 +88,29 @@ func DecodeOpReturn(scriptPubKey []byte) OpReturnResult {
 	}
 
 	// Protocol classification by payload prefix.
-	// Each prefix is the hex encoding of the protocol's magic bytes.
+	// Only verified, factual protocol prefixes are included.
 	// Reference: arXiv 2411.10325v1 — practical colored coin detection.
+	//
+	// Prefixes intentionally NOT included:
+	//   - Counterparty ("CNTRPRTY" / 434e545250525459): Data is ARC4-encrypted
+	//     using the first input's TXID as key. The "CNTRPRTY" magic bytes only
+	//     appear AFTER decryption, not in raw OP_RETURN data. Matching raw bytes
+	//     against this prefix would never work. (Source: counterparty.io docs)
+	//   - OpenTimestamps: OTS embeds a raw 32-byte hash digest directly in
+	//     OP_RETURN with no protocol prefix. There is no fixed magic byte
+	//     sequence to match. (Source: petertodd.org/opentimestamps)
+	//   - Veriblock: VBK PoP transactions use 80-byte OP_RETURN data identified
+	//     by internal structure (version, height, timestamp), not a fixed ASCII
+	//     prefix. (Source: blockchainresearchlab.org analysis of VBK)
 	protocol := "unknown"
 	if strings.HasPrefix(dataHex, "6f6d6e69") {
 		// "omni" in ASCII — Omni Layer (formerly Mastercoin)
+		// Well-documented, unencrypted prefix in OP_RETURN data.
 		protocol = "omni"
-	} else if strings.HasPrefix(dataHex, "0109f91102") {
-		// OpenTimestamps calendar commitment marker
-		protocol = "opentimestamps"
-	} else if strings.HasPrefix(dataHex, "434e545250525459") {
-		// "CNTRPRTY" in ASCII — Counterparty protocol magic bytes
-		// Reference: https://counterparty.io — ARC4-encrypted data starts with CNTRPRTY after decryption
-		protocol = "counterparty"
-	} else if strings.HasPrefix(dataHex, "56424b") {
-		// "VBK" in ASCII — Veriblock proof-of-proof
-		protocol = "veriblock"
 	} else if strings.HasPrefix(dataHex, "4f41") {
-		// "OA" in ASCII — Open Assets / EPOBC colored coins
+		// "OA" in ASCII (0x4f 0x41) — Open Assets Protocol tag
+		// Followed by version bytes (0x01 0x00) and asset quantity list.
+		// Reference: Open Assets Protocol specification (bitcoinwiki.org)
 		protocol = "openassets"
 	}
 
