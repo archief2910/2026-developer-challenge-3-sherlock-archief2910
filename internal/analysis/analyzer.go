@@ -195,7 +195,9 @@ func AnalyzeBlocks(parsedBlocks []block.ParsedBlock, blkFilename string) *FileAn
 }
 
 // computeFeeStats calculates fee rate statistics
-// Uses 99th percentile as max to handle extreme outliers from edge cases
+// Note: This implementation may differ from blockchain explorers due to
+// variations in vbytes calculation methodology. Known differences exist
+// between our implementation and blockchain.com's fee rate calculations.
 func computeFeeStats(feeRates []float64) FeeRateStats {
 	if len(feeRates) == 0 {
 		return FeeRateStats{
@@ -211,7 +213,6 @@ func computeFeeStats(feeRates []float64) FeeRateStats {
 	sort.Float64s(sorted)
 
 	minVal := sorted[0]
-
 	maxVal := sorted[len(sorted)-1]
 
 	// Median
@@ -231,7 +232,7 @@ func computeFeeStats(feeRates []float64) FeeRateStats {
 	meanVal := sum / float64(len(feeRates))
 
 	return FeeRateStats{
-		MinSatVb:    minVal,
+		MinSatVb:    math.Round(minVal*100) / 100,
 		MaxSatVb:    math.Round(maxVal*100) / 100,
 		MedianSatVb: math.Round(median*100) / 100,
 		MeanSatVb:   math.Round(meanVal*100) / 100,

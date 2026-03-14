@@ -28,7 +28,7 @@
     },
     "fee_rate_stats": {
       "min_sat_vb": 0,
-      "max_sat_vb": 50.26,
+      "max_sat_vb": 34412.4,
       "median_sat_vb": 28.1,
       "mean_sat_vb": 33
     }
@@ -63,7 +63,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 55.89,
+          "max_sat_vb": 900,
           "median_sat_vb": 33,
           "mean_sat_vb": 37.08
         },
@@ -132175,7 +132175,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3.02,
-          "max_sat_vb": 55.89,
+          "max_sat_vb": 1077.31,
           "median_sat_vb": 32,
           "mean_sat_vb": 36.86
         },
@@ -132229,7 +132229,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 60.09,
+          "max_sat_vb": 1136.69,
           "median_sat_vb": 34,
           "mean_sat_vb": 40.06
         },
@@ -132283,7 +132283,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 8.91,
-          "max_sat_vb": 80.81,
+          "max_sat_vb": 3507.13,
           "median_sat_vb": 40.8,
           "mean_sat_vb": 54.71
         },
@@ -132337,7 +132337,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 56.89,
+          "max_sat_vb": 457.6,
           "median_sat_vb": 35.91,
           "mean_sat_vb": 39.36
         },
@@ -132391,7 +132391,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 48.49,
+          "max_sat_vb": 1139.47,
           "median_sat_vb": 31.61,
           "mean_sat_vb": 34.18
         },
@@ -132445,8 +132445,8 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 59.98,
-          "median_sat_vb": 35.32,
+          "max_sat_vb": 1224.42,
+          "median_sat_vb": 35.33,
           "mean_sat_vb": 39.36
         },
         "heuristic_counts": {
@@ -132499,7 +132499,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 11.83,
-          "max_sat_vb": 60.28,
+          "max_sat_vb": 1391.59,
           "median_sat_vb": 34.85,
           "mean_sat_vb": 39.86
         },
@@ -132553,8 +132553,8 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 18.13,
-          "max_sat_vb": 51.09,
-          "median_sat_vb": 31.17,
+          "max_sat_vb": 97.18,
+          "median_sat_vb": 31.18,
           "mean_sat_vb": 34.9
         },
         "heuristic_counts": {
@@ -132607,7 +132607,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 56.04,
+          "max_sat_vb": 150.98,
           "median_sat_vb": 33,
           "mean_sat_vb": 37.52
         },
@@ -132661,7 +132661,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3.05,
-          "max_sat_vb": 53.58,
+          "max_sat_vb": 132.81,
           "median_sat_vb": 32,
           "mean_sat_vb": 36.49
         },
@@ -132713,7 +132713,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 7.25,
-          "max_sat_vb": 63.28,
+          "max_sat_vb": 2967.36,
           "median_sat_vb": 36,
           "mean_sat_vb": 44.14
         },
@@ -132767,7 +132767,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 60.67,
+          "max_sat_vb": 1127.28,
           "median_sat_vb": 32.74,
           "mean_sat_vb": 38.45
         },
@@ -132821,8 +132821,8 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 57.18,
-          "median_sat_vb": 32.09,
+          "max_sat_vb": 1688.82,
+          "median_sat_vb": 32.11,
           "mean_sat_vb": 38.79
         },
         "heuristic_counts": {
@@ -132875,7 +132875,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 61.59,
+          "max_sat_vb": 1174.68,
           "median_sat_vb": 35,
           "mean_sat_vb": 41.64
         },
@@ -132929,7 +132929,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3.02,
-          "max_sat_vb": 48.49,
+          "max_sat_vb": 1085.79,
           "median_sat_vb": 29,
           "mean_sat_vb": 32.34
         },
@@ -132983,7 +132983,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 7.25,
-          "max_sat_vb": 43.91,
+          "max_sat_vb": 290.86,
           "median_sat_vb": 28,
           "mean_sat_vb": 30.57
         },
@@ -133037,7 +133037,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 2.02,
-          "max_sat_vb": 47.48,
+          "max_sat_vb": 1140.02,
           "median_sat_vb": 28,
           "mean_sat_vb": 31.85
         },
@@ -133091,7 +133091,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3.01,
-          "max_sat_vb": 50.22,
+          "max_sat_vb": 961.5,
           "median_sat_vb": 31,
           "mean_sat_vb": 33.96
         },
@@ -133145,7 +133145,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 10.12,
-          "max_sat_vb": 72.79,
+          "max_sat_vb": 1470.1,
           "median_sat_vb": 39.57,
           "mean_sat_vb": 48.93
         },
@@ -133199,7 +133199,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 59.7,
+          "max_sat_vb": 34412.4,
           "median_sat_vb": 33.25,
           "mean_sat_vb": 48.8
         },
@@ -133253,7 +133253,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 83.53,
+          "max_sat_vb": 2967.36,
           "median_sat_vb": 42,
           "mean_sat_vb": 51.52
         },
@@ -133307,7 +133307,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 67.96,
+          "max_sat_vb": 1703.9,
           "median_sat_vb": 39,
           "mean_sat_vb": 44.6
         },
@@ -133361,7 +133361,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3.01,
-          "max_sat_vb": 69.27,
+          "max_sat_vb": 1751.8,
           "median_sat_vb": 39.83,
           "mean_sat_vb": 46.51
         },
@@ -133415,7 +133415,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 12.33,
-          "max_sat_vb": 58.63,
+          "max_sat_vb": 1534.7,
           "median_sat_vb": 36,
           "mean_sat_vb": 40.9
         },
@@ -133469,7 +133469,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 60.23,
+          "max_sat_vb": 1822.03,
           "median_sat_vb": 36,
           "mean_sat_vb": 42.29
         },
@@ -133523,7 +133523,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 2,
-          "max_sat_vb": 75.72,
+          "max_sat_vb": 1647.38,
           "median_sat_vb": 40.54,
           "mean_sat_vb": 50.82
         },
@@ -133577,7 +133577,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 76.07,
+          "max_sat_vb": 5291.01,
           "median_sat_vb": 41.19,
           "mean_sat_vb": 54.21
         },
@@ -133631,7 +133631,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 8.23,
-          "max_sat_vb": 82.68,
+          "max_sat_vb": 2244.25,
           "median_sat_vb": 44.13,
           "mean_sat_vb": 60.3
         },
@@ -133685,7 +133685,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 40.1,
+          "max_sat_vb": 595.68,
           "median_sat_vb": 36.14,
           "mean_sat_vb": 37.58
         },
@@ -133739,7 +133739,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3.01,
-          "max_sat_vb": 81,
+          "max_sat_vb": 2290.41,
           "median_sat_vb": 40,
           "mean_sat_vb": 49.58
         },
@@ -133793,7 +133793,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 51.57,
+          "max_sat_vb": 1556.61,
           "median_sat_vb": 35,
           "mean_sat_vb": 39.26
         },
@@ -133847,7 +133847,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 53.58,
+          "max_sat_vb": 1450.47,
           "median_sat_vb": 33.37,
           "mean_sat_vb": 38.13
         },
@@ -133901,7 +133901,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 10.03,
-          "max_sat_vb": 34.5,
+          "max_sat_vb": 82.09,
           "median_sat_vb": 31.22,
           "mean_sat_vb": 32.15
         },
@@ -133955,7 +133955,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 10.05,
-          "max_sat_vb": 50.2,
+          "max_sat_vb": 1721.92,
           "median_sat_vb": 31,
           "mean_sat_vb": 37.11
         },
@@ -134009,7 +134009,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 58.71,
+          "max_sat_vb": 2976.19,
           "median_sat_vb": 37,
           "mean_sat_vb": 45.34
         },
@@ -134063,7 +134063,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 52.51,
+          "max_sat_vb": 1083.44,
           "median_sat_vb": 34.8,
           "mean_sat_vb": 38.54
         },
@@ -134117,7 +134117,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 43.91,
+          "max_sat_vb": 325.55,
           "median_sat_vb": 28,
           "mean_sat_vb": 30.88
         },
@@ -134171,7 +134171,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 54.1,
+          "max_sat_vb": 1060,
           "median_sat_vb": 30,
           "mean_sat_vb": 34.82
         },
@@ -134225,7 +134225,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3.01,
-          "max_sat_vb": 49.92,
+          "max_sat_vb": 1119.85,
           "median_sat_vb": 28.89,
           "mean_sat_vb": 33.54
         },
@@ -134279,7 +134279,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 5.95,
-          "max_sat_vb": 27.02,
+          "max_sat_vb": 942.61,
           "median_sat_vb": 26,
           "mean_sat_vb": 26.59
         },
@@ -134333,7 +134333,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 7.62,
-          "max_sat_vb": 45.31,
+          "max_sat_vb": 904.34,
           "median_sat_vb": 25.5,
           "mean_sat_vb": 28.31
         },
@@ -134387,7 +134387,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 4.17,
-          "max_sat_vb": 47.01,
+          "max_sat_vb": 871.68,
           "median_sat_vb": 25.1,
           "mean_sat_vb": 30.25
         },
@@ -134441,7 +134441,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 10.57,
-          "max_sat_vb": 54.1,
+          "max_sat_vb": 2420.94,
           "median_sat_vb": 33,
           "mean_sat_vb": 39.49
         },
@@ -134495,7 +134495,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 1.1,
-          "max_sat_vb": 35.9,
+          "max_sat_vb": 325.44,
           "median_sat_vb": 24.2,
           "mean_sat_vb": 26.54
         },
@@ -134549,7 +134549,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 2.17,
-          "max_sat_vb": 50.82,
+          "max_sat_vb": 1066.55,
           "median_sat_vb": 30.11,
           "mean_sat_vb": 33.63
         },
@@ -134603,7 +134603,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3.02,
-          "max_sat_vb": 34.5,
+          "max_sat_vb": 451.92,
           "median_sat_vb": 24.2,
           "mean_sat_vb": 26.03
         },
@@ -134657,7 +134657,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 2,
-          "max_sat_vb": 25.9,
+          "max_sat_vb": 457.8,
           "median_sat_vb": 23.5,
           "mean_sat_vb": 24.03
         },
@@ -134711,7 +134711,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 1.01,
-          "max_sat_vb": 30.25,
+          "max_sat_vb": 210.14,
           "median_sat_vb": 23.61,
           "mean_sat_vb": 24.47
         },
@@ -134765,7 +134765,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 10.83,
-          "max_sat_vb": 43.13,
+          "max_sat_vb": 1198.95,
           "median_sat_vb": 26,
           "mean_sat_vb": 29.6
         },
@@ -134819,7 +134819,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 46.06,
+          "max_sat_vb": 1185.03,
           "median_sat_vb": 30,
           "mean_sat_vb": 32.51
         },
@@ -134873,7 +134873,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 10.58,
-          "max_sat_vb": 49.4,
+          "max_sat_vb": 1269.37,
           "median_sat_vb": 30.9,
           "mean_sat_vb": 34.61
         },
@@ -134927,7 +134927,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3.01,
-          "max_sat_vb": 55.61,
+          "max_sat_vb": 1936.54,
           "median_sat_vb": 34.34,
           "mean_sat_vb": 40.09
         },
@@ -134981,7 +134981,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 2.2,
-          "max_sat_vb": 45.31,
+          "max_sat_vb": 478.85,
           "median_sat_vb": 31,
           "mean_sat_vb": 32.18
         },
@@ -135035,7 +135035,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 50.07,
+          "max_sat_vb": 1107.05,
           "median_sat_vb": 28.1,
           "mean_sat_vb": 31.94
         },
@@ -135089,7 +135089,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 54.51,
+          "max_sat_vb": 2839,
           "median_sat_vb": 34.7,
           "mean_sat_vb": 40.37
         },
@@ -135143,7 +135143,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 46.59,
+          "max_sat_vb": 1028.14,
           "median_sat_vb": 30,
           "mean_sat_vb": 32.91
         },
@@ -135197,7 +135197,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 7.94,
-          "max_sat_vb": 39.44,
+          "max_sat_vb": 473.68,
           "median_sat_vb": 25,
           "mean_sat_vb": 26.72
         },
@@ -135251,7 +135251,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 37,
+          "max_sat_vb": 953.01,
           "median_sat_vb": 24.91,
           "mean_sat_vb": 26.92
         },
@@ -135305,7 +135305,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 41.65,
+          "max_sat_vb": 1006.75,
           "median_sat_vb": 25,
           "mean_sat_vb": 28.08
         },
@@ -135359,7 +135359,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3.02,
-          "max_sat_vb": 27.05,
+          "max_sat_vb": 289.86,
           "median_sat_vb": 24.06,
           "mean_sat_vb": 24.37
         },
@@ -135413,7 +135413,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 1.01,
-          "max_sat_vb": 34.04,
+          "max_sat_vb": 826.51,
           "median_sat_vb": 24,
           "mean_sat_vb": 23.84
         },
@@ -135467,7 +135467,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 35,
+          "max_sat_vb": 906.64,
           "median_sat_vb": 24.1,
           "mean_sat_vb": 26.22
         },
@@ -135521,7 +135521,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 35.68,
+          "max_sat_vb": 493,
           "median_sat_vb": 24.16,
           "mean_sat_vb": 25.89
         },
@@ -135575,7 +135575,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 55.78,
+          "max_sat_vb": 2627.31,
           "median_sat_vb": 32.29,
           "mean_sat_vb": 39.99
         },
@@ -135629,7 +135629,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 47.65,
+          "max_sat_vb": 2284.45,
           "median_sat_vb": 26.71,
           "mean_sat_vb": 32.03
         },
@@ -135683,7 +135683,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3.02,
-          "max_sat_vb": 32.47,
+          "max_sat_vb": 707.54,
           "median_sat_vb": 24.3,
           "mean_sat_vb": 26.06
         },
@@ -135737,7 +135737,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 49.28,
+          "max_sat_vb": 1895.64,
           "median_sat_vb": 27.15,
           "mean_sat_vb": 31.72
         },
@@ -135791,7 +135791,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 42.88,
+          "max_sat_vb": 2520.04,
           "median_sat_vb": 24.8,
           "mean_sat_vb": 29.96
         },
@@ -135845,7 +135845,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 11.58,
-          "max_sat_vb": 36.06,
+          "max_sat_vb": 1019.45,
           "median_sat_vb": 24.5,
           "mean_sat_vb": 27
         },
@@ -135899,7 +135899,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 21.1,
-          "max_sat_vb": 27.12,
+          "max_sat_vb": 213.95,
           "median_sat_vb": 24,
           "mean_sat_vb": 24.73
         },
@@ -135953,7 +135953,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 10.3,
-          "max_sat_vb": 30,
+          "max_sat_vb": 2019.19,
           "median_sat_vb": 24.1,
           "mean_sat_vb": 25.68
         },
@@ -136007,7 +136007,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 7.62,
-          "max_sat_vb": 25.15,
+          "max_sat_vb": 313.61,
           "median_sat_vb": 23.2,
           "mean_sat_vb": 23.25
         },
@@ -136061,7 +136061,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 15.06,
-          "max_sat_vb": 30,
+          "max_sat_vb": 173.84,
           "median_sat_vb": 23.86,
           "mean_sat_vb": 25.05
         },
@@ -136115,7 +136115,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 10.83,
-          "max_sat_vb": 43.72,
+          "max_sat_vb": 1526.51,
           "median_sat_vb": 25,
           "mean_sat_vb": 29.02
         },
@@ -136169,7 +136169,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 60,
+          "max_sat_vb": 4659.5,
           "median_sat_vb": 33,
           "mean_sat_vb": 42.66
         },
@@ -136223,7 +136223,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 42.92,
+          "max_sat_vb": 993.62,
           "median_sat_vb": 28,
           "mean_sat_vb": 30.78
         },
@@ -136277,7 +136277,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 33.79,
+          "max_sat_vb": 457.4,
           "median_sat_vb": 24.3,
           "mean_sat_vb": 26.04
         },
@@ -136331,7 +136331,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 12.95,
-          "max_sat_vb": 27.63,
+          "max_sat_vb": 476.19,
           "median_sat_vb": 25,
           "mean_sat_vb": 25.33
         },
@@ -136385,7 +136385,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 0,
-          "max_sat_vb": 25,
+          "max_sat_vb": 468.75,
           "median_sat_vb": 23.99,
           "mean_sat_vb": 24.39
         },
@@ -136439,7 +136439,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 3,
-          "max_sat_vb": 25.05,
+          "max_sat_vb": 944.66,
           "median_sat_vb": 23.5,
           "mean_sat_vb": 24.32
         },
@@ -136493,7 +136493,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 6.67,
-          "max_sat_vb": 25.57,
+          "max_sat_vb": 195.76,
           "median_sat_vb": 23.3,
           "mean_sat_vb": 24.18
         },
@@ -136547,7 +136547,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 9,
-          "max_sat_vb": 30,
+          "max_sat_vb": 444.36,
           "median_sat_vb": 23.1,
           "mean_sat_vb": 24.29
         },
@@ -136601,7 +136601,7 @@
         },
         "fee_rate_stats": {
           "min_sat_vb": 10,
-          "max_sat_vb": 48.99,
+          "max_sat_vb": 1238.55,
           "median_sat_vb": 26,
           "mean_sat_vb": 27.82
         },
