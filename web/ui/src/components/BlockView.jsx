@@ -37,11 +37,6 @@ export const BlockView = ({ blockData, onBack }) => {
           value={sum.flagged_transactions.toLocaleString()} 
           sub={`${((sum.flagged_transactions/blockData.tx_count)*100).toFixed(1)}% of block`} 
         />
-        <StatCard 
-          label="Block Time" 
-          value={new Date(blockData.block_timestamp * 1000).toLocaleDateString()} 
-          sub={new Date(blockData.block_timestamp * 1000).toLocaleTimeString()} 
-        />
       </div>
 
       <h2 className="section-title">
