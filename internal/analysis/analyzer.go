@@ -30,13 +30,14 @@ type FileLevelSummary struct {
 	FeeRateStats              FeeRateStats   `json:"fee_rate_stats"`
 }
 
-// BlockAnalysisResult is per-block analysis
 type BlockAnalysisResult struct {
 	BlockHash       string             `json:"block_hash"`
 	BlockHeight     int64              `json:"block_height"`
 	TxCount         int                `json:"tx_count"`
 	AnalysisSummary BlockLevelSummary  `json:"analysis_summary"`
 	Transactions    []TxAnalysisResult `json:"transactions,omitempty"`
+	// BlockTimestamp is used for Markdown reports only, not included in JSON schema
+	BlockTimestamp uint32 `json:"-"`
 }
 
 // BlockLevelSummary is per-block summary
@@ -143,9 +144,10 @@ func AnalyzeBlocks(parsedBlocks []block.ParsedBlock, blkFilename string) *FileAn
 		}
 
 		blockResult := BlockAnalysisResult{
-			BlockHash:   pb.Header.BlockHash,
-			BlockHeight: pb.Height,
-			TxCount:     len(pb.Transactions),
+			BlockHash:      pb.Header.BlockHash,
+			BlockHeight:    pb.Height,
+			BlockTimestamp: pb.Header.Timestamp,
+			TxCount:        len(pb.Transactions),
 			AnalysisSummary: BlockLevelSummary{
 				TotalTransactionsAnalyzed: len(pb.Transactions),
 				HeuristicsApplied:         hIDs,

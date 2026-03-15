@@ -73,6 +73,7 @@ func GenerateMarkdownReport(result *analysis.FileAnalysisResult) string {
 		sb.WriteString(fmt.Sprintf("|-------|-------|\n"))
 		sb.WriteString(fmt.Sprintf("| Block Hash | `%s` |\n", blk.BlockHash))
 		sb.WriteString(fmt.Sprintf("| Block Height | %d |\n", blk.BlockHeight))
+		sb.WriteString(fmt.Sprintf("| Block Timestamp | %d |\n", blk.BlockTimestamp))
 		sb.WriteString(fmt.Sprintf("| Transaction Count | %d |\n", blk.TxCount))
 		sb.WriteString(fmt.Sprintf("| Flagged Transactions | %d |\n", blk.AnalysisSummary.FlaggedTransactions))
 		sb.WriteString("\n")
