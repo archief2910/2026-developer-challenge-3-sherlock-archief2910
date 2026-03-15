@@ -548,7 +548,7 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 │  │    5. Calculate fee rate:                                       │                    │
 │  │         • weight = witness*4 + non_witness                     │                    │
 │  │         • vbytes = weight / 4                                  │                    │
-│  │         • fee_rate = fee_sats / vbytes                       │                    │
+│  │         • fee_rate = fee_sats / vbytes                          │                    │
 │  └─────────────────────────────────────────────────────────────────┘                    │
 │                              │                                                          │
 │                              ▼                                                          │
@@ -687,54 +687,54 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
 │                              CLI WORKFLOW                                               │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│  $ ./cli.sh --block blk04330.dat rev04330.dat xor.dat                                  │
-│                                                                                          │
-│  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │ cli.sh                                                                         │  │
-│  │  1. Parse arguments                                                            │  │
-│  │  2. Validate files exist                                                       │  │
-│  │  3. Create out/ directory                                                      │  │
-│  │  4. Build sherlock-cli (if needed)                                            │  │
-│  │  5. exec sherlock-cli --block <files>                                         │  │
-│  └────────────────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                         │
+│  $ ./cli.sh --block blk04330.dat rev04330.dat xor.dat                                   │
+│                                                                                         │
+│  ┌────────────────────────────────────────────────────────────────────────────────────┐ │
+│  │ cli.sh                                                                             │ │
+│  │  1. Parse arguments                                                                │ │
+│  │  2. Validate files exist                                                           │ │
+│  │  3. Create out/ directory                                                          │ │
+│  │  4. Build sherlock-cli (if needed)                                                 │ │
+│  │  5. exec sherlock-cli --block <files>                                              │ │
+│  └────────────────────────────────────────────────────────────────────────────────────┘ │
 │                                        │                                                │
 │                                        ▼                                                │
 │  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │ sherlock-cli (cmd/cli/main.go)                                                 │  │
-│  │                                                                                  │  │
-│  │  1. ParseArgs()                                                                │  │
-│  │     - Check --block flag                                                        │  │
-│  │     - Get 3 file paths                                                         │  │
-│  │     - Validate files exist                                                       │  │
-│  │                                                                                  │  │
-│  │  2. block.ProcessBlockFiles(blkPath, revPath, xorPath)                         │  │
-│  │     ├── Read xor.dat (XOR key)                                                 │  │
-│  │     ├── Read blk.dat & XOR decode                                              │  │
-│  │     ├── Read rev.dat & XOR decode                                              │  │
-│  │     ├── Parse blocks                                                            │  │
-│  │     └── Return []ParsedBlock                                                    │  │
-│  │                                                                                  │  │
-│  │  3. analysis.AnalyzeBlocks(parsedBlocks, filename, false)                        │  │
-│  │     ├── For each block:                                                        │  │
-│  │     │   ├── Build address map                                                   │  │
-│  │     │   ├── For each tx: apply 9 heuristics                                   │  │
-│  │     │   ├── Classify tx                                                        │  │
-│  │     │   └── Aggregate stats                                                     │  │
-│  │     └── Return *FileAnalysisResult                                              │  │
-│  │                                                                                  │  │
-│  │  4. WriteJSON(result) → out/blk*.json                                          │  │
-│  │  5. report.GenerateMarkdownReport(result) → out/blk*.md                        │  │
-│  │  6. Print success message                                                       │  │
+│  │ sherlock-cli (cmd/cli/main.go)                                                     │  │
+│  │                                                                                    │  │
+│  │  1. ParseArgs()                                                                    │  │
+│  │     - Check --block flag                                                           │  │
+│  │     - Get 3 file paths                                                             │  │
+│  │     - Validate files exist                                                         │  │
+│  │                                                                                    │  │
+│  │  2. block.ProcessBlockFiles(blkPath, revPath, xorPath)                             │  │
+│  │     ├── Read xor.dat (XOR key)                                                     │  │
+│  │     ├── Read blk.dat & XOR decode                                                  │  │
+│  │     ├── Read rev.dat & XOR decode                                                  │  │
+│  │     ├── Parse blocks                                                               │  │
+│  │     └── Return []ParsedBlock                                                       │  │
+│  │                                                                                    │  │
+│  │  3. analysis.AnalyzeBlocks(parsedBlocks, filename, false)                          │  │
+│  │     ├── For each block:                                                            │  │
+│  │     │   ├── Build address map                                                      │  │
+│  │     │   ├── For each tx: apply 9 heuristics                                        │  │
+│  │     │   ├── Classify tx                                                            │  │
+│  │     │   └── Aggregate stats                                                        │  │
+│  │     └── Return *FileAnalysisResult                                                 │  │
+│  │                                                                                    │  │
+│  │  4. WriteJSON(result) → out/blk*.json                                              │  │
+│  │  5. report.GenerateMarkdownReport(result) → out/blk*.md                            │  │
+│  │  6. Print success message                                                          │  │
 │  └────────────────────────────────────────────────────────────────────────────────────┘  │
-│                                        │                                                │
-│                                        ▼                                                │
-│  Output:                                                                               │
+│                                        │                                                 │
+│                                        ▼                                                 │
+│  Output:                                                                                 │
 │  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │ stderr:                                                                         │  │
-│  │   Wrote out/blk04330.json (XXX bytes)                                          │  │
-│  │   Wrote out/blk04330.md (XXX bytes)                                            │  │
-│  │   Chain analysis complete for blk04330.dat                                      │  │
+│  │ stderr:                                                                            │  │
+│  │   Wrote out/blk04330.json (XXX bytes)                                              │  │
+│  │   Wrote out/blk04330.md (XXX bytes)                                                │  │
+│  │   Chain analysis complete for blk04330.dat                                         │  │
 │  └────────────────────────────────────────────────────────────────────────────────────┘  │
 │                                                                                          │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
@@ -746,78 +746,78 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
 │                              WEB SERVER WORKFLOW                                        │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
+│                                                                                         │
 │  $ ./web.sh                                                                             │
-│                                                                                          │
-│  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │ web.sh                                                                           │  │
-│  │  1. Set PORT (default 3000)                                                    │  │
-│  │  2. Build sherlock-web (if needed)                                             │  │
-│  │  3. exec sherlock-web                                                         │  │
+│                                                                                         │
+│  ┌────────────────────────────────────────────────────────────────────────────────────┐ │
+│  │ web.sh                                                                             │  │
+│  │  1. Set PORT (default 3000)                                                        │  │
+│  │  2. Build sherlock-web (if needed)                                                 │  │
+│  │  3. exec sherlock-web                                                              │  │
 │  └────────────────────────────────────────────────────────────────────────────────────┘  │
 │                                        │                                                │
 │                                        ▼                                                │
 │  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │ sherlock-web (cmd/web/main.go)                                                 │  │
-│  │                                                                                  │  │
-│  │  HTTP Server listening on 127.0.0.1:3000                                        │  │
-│  │                                                                                  │  │
-│  │  ┌──────────────────────────────────────────────────────────────────────────┐    │  │
-│  │  │ GET /api/health                                                        │    │  │
-│  │  │   → Returns: { "ok": true }                                          │    │  │
-│  │  └──────────────────────────────────────────────────────────────────────────┘    │  │
-│  │                                                                                  │  │
-│  │  ┌──────────────────────────────────────────────────────────────────────────┐    │  │
-│  │  │ GET /api/blocks                                                       │    │  │
-│  │  │   → Lists all .json files in out/                                    │    │  │
-│  │  │   → Returns: { "ok": true, "files": ["blk04330", "blk05051"] }      │    │  │
-│  │  └──────────────────────────────────────────────────────────────────────────┘    │  │
-│  │                                                                                  │  │
-│  │  ┌──────────────────────────────────────────────────────────────────────────┐    │  │
-│  │  │ GET /api/blocks/blk04330                                              │    │  │
-│  │  │   → Reads out/blk04330.json                                          │    │  │
-│  │  │   → Adds timestamps (estimated from block height)                     │    │  │
-│  │  │   → Returns JSON content                                              │    │  │
-│  │  └──────────────────────────────────────────────────────────────────────────┘    │  │
-│  │                                                                                  │  │
-│  │  ┌──────────────────────────────────────────────────────────────────────────┐    │  │
-│  │  │ POST /api/upload                                                        │    │  │
-│  │  │   1. Parse multipart form (blk, rev, xor files)                       │    │  │
-│  │  │   2. Save to temp directory                                           │    │  │
-│  │  │   3. block.ProcessBlockFiles(...)                                      │    │  │
-│  │  │   4. analysis.AnalyzeBlocks(..., includeAllTx=true)                    │    │  │
-│  │  │   5. Add timestamps (actual from parsed blocks)                         │    │  │
-│  │  │   6. Write to out/                                                    │    │  │
-│  │  │   7. Return result to client                                           │    │  │
-│  │  └──────────────────────────────────────────────────────────────────────────┘    │  │
-│  │                                                                                  │  │
-│  │  ┌──────────────────────────────────────────────────────────────────────────┐    │  │
-│  │  │ GET /* (SPA handler)                                                  │    │  │
-│  │  │   → Serve static files from web/dist/                                 │    │  │
-│  │  │   → index.html for unknown paths                                       │    │  │
-│  │  └──────────────────────────────────────────────────────────────────────────┘    │  │
+│  │ sherlock-web (cmd/web/main.go)                                                     │  │
+│  │                                                                                    │  │
+│  │  HTTP Server listening on 127.0.0.1:3000                                           │  │
+│  │                                                                                    │  │
+│  │  ┌──────────────────────────────────────────────────────────────────────────┐      │  │
+│  │  │ GET /api/health                                                          │      │  │
+│  │  │   → Returns: { "ok": true }                                              │      │  │
+│  │  └──────────────────────────────────────────────────────────────────────────┘      │  │
+│  │                                                                                    │  │
+│  │  ┌──────────────────────────────────────────────────────────────────────────┐      │  │
+│  │  │ GET /api/blocks                                                          │      │  │
+│  │  │   → Lists all .json files in out/                                        │      │  │
+│  │  │   → Returns: { "ok": true, "files": ["blk04330", "blk05051"] }           │      │  │
+│  │  └──────────────────────────────────────────────────────────────────────────┘      │  │
+│  │                                                                                    │  │
+│  │  ┌──────────────────────────────────────────────────────────────────────────┐      │  │
+│  │  │ GET /api/blocks/blk04330                                                 │      │  │
+│  │  │   → Reads out/blk04330.json                                              │      │  │
+│  │  │   → Adds timestamps (estimated from block height)                        │      │  │
+│  │  │   → Returns JSON content                                                 │      │  │
+│  │  └──────────────────────────────────────────────────────────────────────────┘      │  │
+│  │                                                                                    │  │
+│  │  ┌──────────────────────────────────────────────────────────────────────────┐      │  │
+│  │  │ POST /api/upload                                                         │      │  │
+│  │  │   1. Parse multipart form (blk, rev, xor files)                          │      │  │
+│  │  │   2. Save to temp directory                                              │      │  │
+│  │  │   3. block.ProcessBlockFiles(...)                                        │      │  │
+│  │  │   4. analysis.AnalyzeBlocks(..., includeAllTx=true)                      │      │  │
+│  │  │   5. Add timestamps (actual from parsed blocks)                          │      │  │
+│  │  │   6. Write to out/                                                       │      │  │
+│  │  │   7. Return result to client                                             │      │  │
+│  │  └──────────────────────────────────────────────────────────────────────────┘      │  │
+│  │                                                                                    │  │
+│  │  ┌──────────────────────────────────────────────────────────────────────────┐      │  │
+│  │  │ GET /* (SPA handler)                                                     │      │  │
+│  │  │   → Serve static files from web/dist/                                    │      │  │
+│  │  │   → index.html for unknown paths                                         │      │  │
+│  │  └──────────────────────────────────────────────────────────────────────────┘      │  │
 │  └────────────────────────────────────────────────────────────────────────────────────┘  │
-│                                        │                                                │
-│                                        ▼                                                │
-│  Browser accesses http://127.0.0.1:3000                                               │
+│                                        │                                                 │
+│                                        ▼                                                 │
+│  Browser accesses http://127.0.0.1:3000                                                  │
 │                                                                                          │
 │  ┌────────────────────────────────────────────────────────────────────────────────────┐  │
-│  │                          REACT FRONTEND                                         │  │
-│  │                                                                                  │  │
-│  │  ┌────────────┐    ┌────────────┐    ┌────────────┐    ┌────────────┐     │  │
-│  │  │ Dashboard  │───▶│ BlockView  │───▶│  TX Table  │───▶│ TX Graph   │     │  │
-│  │  │ (overview) │    │ (per-block)│    │ (filtered) │    │ (visual)   │     │  │
-│  │  └────────────┘    └────────────┘    └────────────┘    └────────────┘     │  │
-│  │       │                  │                  │                  │             │  │
-│  │       └──────────────────┴──────────────────┴──────────────────┘             │  │
-│  │                                    │                                          │  │
-│  │                                    ▼                                          │  │
-│  │                         ┌────────────────────┐                               │  │
-│  │                         │     Tooltips       │                               │  │
-│  │                         │  (Definitions for  │                               │  │
-│  │                         │   non-technical    │                               │  │
-│  │                         │   users)          │                               │  │
-│  │                         └────────────────────┘                               │  │
+│  │                          REACT FRONTEND                                            │  │
+│  │                                                                                    │  │
+│  │  ┌────────────┐    ┌────────────┐    ┌────────────┐    ┌────────────┐              │  │
+│  │  │ Dashboard  │───▶│ BlockView  │───▶│  TX Table  │───▶│ TX Graph │              │  │
+│  │  │ (overview) │    │ (per-block)│    │ (filtered) │    │ (visual)   │              │  │
+│  │  └────────────┘    └────────────┘    └────────────┘    └────────────┘              │  │
+│  │       │                  │                  │                  │                   │  │
+│  │       └──────────────────┴──────────────────┴──────────────────┘                   │  │
+│  │                                    │                                               │  │
+│  │                                    ▼                                               │  │
+│  │                         ┌────────────────────┐                                     │  │
+│  │                         │     Tooltips       │                                     │  │
+│  │                         │  (Definitions for  │                                     │  │
+│  │                         │   non-technical    │                                     │  │
+│  │                         │   users)          │                                      │  │
+│  │                         └────────────────────┘                                     │  │
 │  └────────────────────────────────────────────────────────────────────────────────────┘  │
 │                                                                                          │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
@@ -831,81 +831,81 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                        9 HEURISTICS IMPLEMENTED                                        │
+│                        9 HEURISTICS IMPLEMENTED                                         │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│  ┌─────────────────────────────────────────────────────────────────────────────────┐     │
-│  │                    CLUSTERING HEURISTICS                                      │     │
-│  ├───────────────────────────────────────────────────────────────────────────────┤     │
-│  │  1. CIOH (Common Input Ownership)                                           │     │
-│  │     ─────────────────────────────────────                                     │     │
-│  │     Detects: Multiple inputs → same wallet                                   │     │
-│  │     Logic:   len(inputs) > 1                                                │     │
-│  │     Confidence: high (>3 inputs), medium (2-3), low (CoinJoin detected)     │     │
-│  │                                                                               │     │
-│  │  2. Address Reuse                                                          │     │
-│  │     ─────────────────────────────────────                                     │     │
-│  │     Detects: Same address in inputs/outputs across txs                       │     │
-│  │     Logic:   Cross-reference address map                                     │     │
-│  │     Confidence: always high                                                   │     │
+│                                                                                         │
+│  ┌────────────────────────────────────────────────────────────────────────────────┐     │
+│  │                    CLUSTERING HEURISTICS                                       │     │
+│  ├─────────────────────────────────────────────────────────────────────────────-──┤     │
+│  │  1. CIOH (Common Input Ownership)                                              │     │
+│  │     ─────────────────────────────────────                                      │     │
+│  │     Detects: Multiple inputs → same wallet                                     │     │
+│  │     Logic:   len(inputs) > 1                                                    │     │
+│  │     Confidence: high (>3 inputs), medium (2-3), low (CoinJoin detected)         │     │
+│  │                                                                                 │     │
+│  │  2. Address Reuse                                                               │     │
+│  │     ─────────────────────────────────────                                       │     │
+│  │     Detects: Same address in inputs/outputs across txs                          │     │
+│  │     Logic:   Cross-reference address map                                        │     │
+│  │     Confidence: always high                                                     │     │
 │  └─────────────────────────────────────────────────────────────────────────────────┘     │
 │                                                                                          │
 │  ┌─────────────────────────────────────────────────────────────────────────────────┐     │
-│  │                    CHANGE DETECTION HEURISTICS                               │     │
-│  ├───────────────────────────────────────────────────────────────────────────────┤     │
-│  │  3. Change Detection (6 methods)                                           │     │
-│  │     ─────────────────────────────────────                                     │     │
-│  │     • Script type matching (high)                                          │     │
-│  │     • Optimal change (high)                                                 │     │
-│  │     • Round number (medium)                                                 │     │
-│  │     • nLockTime fingerprint (medium)                                        │     │
-│  │     • Fresh address (low)                                                   │     │
-│  │     • Value analysis (low)                                                  │     │
-│  │                                                                               │     │
-│  │  4. Round Number Payment                                                    │     │
-│  │     ─────────────────────────────────────                                     │     │
-│  │     Detects: Round BTC amounts = human-chosen payments                       │     │
-│  │     Logic:   value % 100000 == 0                                           │     │
-│  │     Confidence: high (≥0.1 BTC), medium, low                                │     │
+│  │                    CHANGE DETECTION HEURISTICS                                  │     │
+│  ├──────────────────────────────────────────────────────────────────────────────--─┤     │
+│  │  3. Change Detection (6 methods)                                                │     │
+│  │     ─────────────────────────────────────                                       │     │
+│  │     • Script type matching (high)                                               │     │
+│  │     • Optimal change (high)                                                     │     │
+│  │     • Round number (medium)                                                     │     │
+│  │     • nLockTime fingerprint (medium)                                            │     │
+│  │     • Fresh address (low)                                                       │     │
+│  │     • Value analysis (low)                                                      │     │
+│  │                                                                                 │     │
+│  │  4. Round Number Payment                                                        │     │
+│  │     ─────────────────────────────────────                                       │     │
+│  │     Detects: Round BTC amounts = human-chosen payments                          │     │
+│  │     Logic:   value % 100000 == 0                                                │     │
+│  │     Confidence: high (≥0.1 BTC), medium, low                                    │     │
 │  └─────────────────────────────────────────────────────────────────────────────────┘     │
 │                                                                                          │
 │  ┌─────────────────────────────────────────────────────────────────────────────────┐     │
-│  │                    PRIVACY HEURISTICS                                        │     │
-│  ├───────────────────────────────────────────────────────────────────────────────┤     │
-│  │  5. CoinJoin Detection                                                     │     │
-│  │     ─────────────────────────────────────                                     │     │
-│  │     Detects: Multi-party privacy transactions                               │     │
-│  │     Logic:   3+ inputs, 3+ outputs, equal values                          │     │
-│  │     Confidence: high (confirmed), medium (possible)                        │     │
-│  │                                                                               │     │
-│  │  6. Self-Transfer                                                          │     │
-│  │     ─────────────────────────────────────                                     │     │
-│  │     Detects: Funds moved between own addresses                              │     │
-│  │     Logic:   output_types == input_types, no round amounts                 │     │
-│  │     Confidence: medium                                                      │     │
-│  │                                                                               │     │
-│  │  7. Consolidation                                                          │     │
-│  │     ─────────────────────────────────────                                     │     │
-│  │     Detects: Many UTXOs combined                                            │     │
-│  │     Logic:   inputs >= 5, outputs <= 2                                     │     │
-│  │     Confidence: high (10+), medium (5-9)                                   │     │
-│  │                                                                               │     │
-│  │  8. Peeling Chain                                                          │     │
-│  │     ─────────────────────────────────────                                     │     │
-│  │     Detects: Large UTXO progressively peeled                                │     │
-│  │     Logic:   1 input, 2 outputs, ratio < 0.1                               │     │
-│  │     Confidence: high (<1%), medium, low                                     │     │
+│  │                    PRIVACY HEURISTICS                                           │     │
+│  ├─────────────────────────────────────────────────────────────────────────────--──┤     │
+│  │  5. CoinJoin Detection                                                          │     │
+│  │     ─────────────────────────────────────                                       │     │
+│  │     Detects: Multi-party privacy transactions                                   │     │
+│  │     Logic:   3+ inputs, 3+ outputs, equal values                                │     │
+│  │     Confidence: high (confirmed), medium (possible)                             │     │
+│  │                                                                                 │     │
+│  │  6. Self-Transfer                                                               │     │
+│  │     ─────────────────────────────────────                                       │     │
+│  │     Detects: Funds moved between own addresses                                  │     │
+│  │     Logic:   output_types == input_types, no round amounts                      │     │
+│  │     Confidence: medium                                                          │     │
+│  │                                                                                 │     │
+│  │  7. Consolidation                                                               │     │
+│  │     ─────────────────────────────────────                                       │     │
+│  │     Detects: Many UTXOs combined                                                │     │
+│  │     Logic:   inputs >= 5, outputs <= 2                                          │     │
+│  │     Confidence: high (10+), medium (5-9)                                        │     │
+│  │                                                                                 │     │
+│  │  8. Peeling Chain                                                               │     │
+│  │     ─────────────────────────────────────                                       │     │
+│  │     Detects: Large UTXO progressively peeled                                    │     │
+│  │     Logic:   1 input, 2 outputs, ratio < 0.1                                    │     │
+│  │     Confidence: high (<1%), medium, low                                         │     │
 │  └─────────────────────────────────────────────────────────────────────────────────┘     │
 │                                                                                          │
 │  ┌─────────────────────────────────────────────────────────────────────────────────┐     │
-│  │                    DATA HEURISTICS                                            │     │
-│  ├───────────────────────────────────────────────────────────────────────────────┤     │
-│  │  9. OP_RETURN Analysis                                                    │     │
-│  │     ─────────────────────────────────────                                     │     │
-│  │     Detects: Data carrier outputs                                           │     │
-│  │     Logic:   opcode == 0x6a                                               │     │
-│  │     Protocols: Omni (6f6d6e69), OpenAssets (4f41)                        │     │
-│  │     Confidence: high                                                       │     │
+│  │                    DATA HEURISTICS                                              │     │
+│  ├──────────────────────────────────────────────────────────────────────────────--─┤     │
+│  │  9. OP_RETURN Analysis                                                          │     │
+│  │     ─────────────────────────────────────                                       │     │
+│  │     Detects: Data carrier outputs                                               │     │
+│  │     Logic:   opcode == 0x6a                                                     │     │
+│  │     Protocols: Omni (6f6d6e69), OpenAssets (4f41)                               │     │
+│  │     Confidence: high                                                            │     │
 │  └─────────────────────────────────────────────────────────────────────────────────┘     │
 │                                                                                          │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
@@ -1153,50 +1153,50 @@ All heuristics are probabilistic — there is no certainty in on-chain analysis.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                              GLOSSARY                                                │
+│                              GLOSSARY                                                   │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│  BLOCKCHAIN TERMS:                                                                       │
-│  ══════════════════                                                                      │
-│                                                                                          │
-│  Block         │ A collection of verified Bitcoin transactions, ~1MB data              │
-│  Transaction  │ A transfer of Bitcoin from sender(s) to recipient(s)               │
-│  TXID         │ Transaction ID - double SHA256 hash of transaction                    │
-│  UTXO         │ Unspent Transaction Output - spendable Bitcoin balance                │
-│  Coinbase     │ First tx in block - creates new Bitcoin (miner reward)              │
-│  Prevout      │ Previous output being spent as input                                 │
-│  Fee          │ Input sum - Output sum (paid to miner)                               │
-│  Fee Rate     │ Fee per virtual byte (sats/vB)                                      │
-│  VBytes       │ Virtual bytes = weight / 4                                          │
-│                                                                                          │
-│  SCRIPT TYPES:                                                                           │
-│  ════════════                                                                            │
-│                                                                                          │
-│  P2PKH   │ Pay to Public Key Hash      │ Legacy    │ Addresses: 1...              │
-│  P2SH    │ Pay to Script Hash          │ Legacy    │ Addresses: 3...              │
-│  P2WPKH  │ Pay to Witness PKH         │ SegWit    │ Addresses: bc1q...          │
-│  P2WSH   │ Pay to Witness Script      │ SegWit    │ Addresses: bc1q...          │
-│  P2TR    │ Pay to Taproot             │ Taproot   │ Addresses: bc1p...          │
-│  OP_RET  │ OP_RETURN (data carrier)   │ -         │ No address                  │
-│                                                                                          │
-│  HEURISTIC TERMS:                                                                        │
-│  ════════════════                                                                        │
-│                                                                                          │
-│  CIOH       │ Common Input Ownership Heuristic                                         │
-│  Change    │ Output returning funds to sender                                         │
-│  CoinJoin  │ Multi-party privacy transaction                                         │
-│  Consolid  │ Combining many UTXOs into fewer                                         │
-│  Peeling   │ Progressive splitting: small payment + large change                    │
-│  Cluster   │ Group of addresses believed same owner                                  │
-│                                                                                          │
+│                                                                                         │
+│  BLOCKCHAIN TERMS:                                                                      │
+│  ══════════════════                                                                     │
+│                                                                                         │
+│  Block         │ A collection of verified Bitcoin transactions, ~1MB data               │
+│  Transaction  │ A transfer of Bitcoin from sender(s) to recipient(s)                    │
+│  TXID         │ Transaction ID - double SHA256 hash of transaction                      │
+│  UTXO         │ Unspent Transaction Output - spendable Bitcoin balance                  │
+│  Coinbase     │ First tx in block - creates new Bitcoin (miner reward)                  │
+│  Prevout      │ Previous output being spent as input                                    │
+│  Fee          │ Input sum - Output sum (paid to miner)                                  │
+│  Fee Rate     │ Fee per virtual byte (sats/vB)                                          │
+│  VBytes       │ Virtual bytes = weight / 4                                              │
+│                                                                                         │
+│  SCRIPT TYPES:                                                                          │
+│  ════════════                                                                           │
+│                                                                                         │
+│  P2PKH   │ Pay to Public Key Hash      │ Legacy    │ Addresses: 1...                    │
+│  P2SH    │ Pay to Script Hash          │ Legacy    │ Addresses: 3...                    │
+│  P2WPKH  │ Pay to Witness PKH         │ SegWit    │ Addresses: bc1q...                  │
+│  P2WSH   │ Pay to Witness Script      │ SegWit    │ Addresses: bc1q...                  │
+│  P2TR    │ Pay to Taproot             │ Taproot   │ Addresses: bc1p...                  │
+│  OP_RET  │ OP_RETURN (data carrier)   │ -         │ No address                          │
+│                                                                                         │
+│  HEURISTIC TERMS:                                                                       │
+│  ════════════════                                                                       │
+│                                                                                         │
+│  CIOH       │ Common Input Ownership Heuristic                                          │
+│  Change    │ Output returning funds to sender                                           │
+│  CoinJoin  │ Multi-party privacy transaction                                            │
+│  Consolid  │ Combining many UTXOs into fewer                                            │
+│  Peeling   │ Progressive splitting: small payment + large change                        │
+│  Cluster   │ Group of addresses believed same owner                                     │
+│                                                                                         │
 │  ANALYSIS TERMS:                                                                        │
 │  ══════════════                                                                         │
-│                                                                                          │
-│  False Positive │ Heuristic incorrectly flags something                              │
-│  False Negative │ Heuristic misses something actual                                   │
-│  Confidence    │ Reliability level of detection                                      │
-│  Classification│ Transaction type (simple_payment, coinjoin, etc.)                   │
-│                                                                                          │
+│                                                                                         │
+│  False Positive │ Heuristic incorrectly flags something                                 │
+│  False Negative │ Heuristic misses something actual                                     │
+│  Confidence    │ Reliability level of detection                                         │
+│  Classification│ Transaction type (simple_payment, coinjoin, etc.)                      │
+│                                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -1248,59 +1248,59 @@ All heuristics are probabilistic — there is no certainty in on-chain analysis.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                          TRADE-OFFS AND DESIGN DECISIONS                              │
+│                          TRADE-OFFS AND DESIGN DECISIONS                                │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│  ACCURACY vs PERFORMANCE:                                                                │
+│                                                                                         │
+│  ACCURACY vs PERFORMANCE:                                                               │
 │  ════════════════════════                                                               │
-│                                                                                          │
-│  Decision                          │ Impact                                            │
-│  ──────────────────────────────────┼───────────────────────────────────                  │
-│  Block-level address map          │ Enables cross-tx reuse detection                 │
-│                                   │ O(n) memory per block, acceptable                │
-│                                                                                       │
-│  Transaction array optimization   │ Only first block has full tx data               │
-│                                   │ Reduces JSON size by ~90%                        │
-│                                                                                       │
-│  Conservative thresholds         │ CoinJoin: 3+ outputs (not 2)                    │
-│                                   │ Consolidation: 5+ inputs (not 3)                  │
-│                                   │ Reduces false positives, some false negatives     │
-│                                                                                       │
-│  Subset-sum verification limit   │ 10,000 iterations max                          │
-│                                   │ Prevents performance issues on large txs          │
-│                                                                                       │
-│  SIMPLICITY vs COVERAGE:                                                                   │
-│  ════════════════════════                                                                   │
-│                                                                                          │
-│  Decision                          │ Impact                                            │
-│  ──────────────────────────────────┼───────────────────────────────────                  │
-│  All 9 heuristics                 │ Comprehensive coverage (vs minimum 5)             │
-│                                   │ More complete analysis                           │
-│                                                                                       │
-│  Independent heuristic design   │ Each testable in isolation                       │
-│                                   │ Easier debugging                                │
-│                                                                                       │
-│  Deferred multi-tx analysis    │ Simpler initial implementation                   │
-│                                   │ (full peeling chain tracking deferred)          │
-│                                                                                       │
-│  DESIGN DECISIONS:                                                                       │
-│  ══════════════════                                                                       │
-│                                                                                          │
-│  Decision                          │ Rationale                                         │
-│  ──────────────────────────────────┼───────────────────────────────────                  │
-│  Confidence as string             │ More interpretable than numeric scores            │
-│  ("high/medium/low")             │ Matches JSON schema example                      │
-│                                   │ Avoids false precision                           │
-│                                                                                       │
-│  OP_RETURN protocol detection    │ Only verified prefixes (Omni, OpenAssets)       │
-│                                   │ Avoids false positives                          │
-│                                                                                       │
-│  0.001 BTC round threshold       │ Below = dust/fees, not payments               │
-│                                   │ Avoids false positives                          │
-│                                                                                       │
-│  Block-level freshness only      │ Full-chain requires UTXO set                    │
-│                                   │ Not available in block-file analysis             │
-│                                                                                       │
+│                                                                                         │
+│  Decision                          │ Impact                                             │
+│  ──────────────────────────────────┼───────────────────────────────────                 │
+│  Block-level address map          │ Enables cross-tx reuse detection                    │
+│                                   │ O(n) memory per block, acceptable                   │
+│                                                                                         │
+│  Transaction array optimization   │ Only first block has full tx data                   │
+│                                   │ Reduces JSON size by ~90%                           │
+│                                                                                         │
+│  Conservative thresholds         │ CoinJoin: 3+ outputs (not 2)                         │
+│                                   │ Consolidation: 5+ inputs (not 3)                    │
+│                                   │ Reduces false positives, some false negatives       │
+│                                                                                         │
+│  Subset-sum verification limit   │ 10,000 iterations max                                │
+│                                   │ Prevents performance issues on large txs            │
+│                                                                                         │
+│  SIMPLICITY vs COVERAGE:                                                                │
+│  ════════════════════════                                                               │
+│                                                                                         │
+│  Decision                          │ Impact                                             │
+│  ──────────────────────────────────┼───────────────────────────────────                 │
+│  All 9 heuristics                 │ Comprehensive coverage (vs minimum 5)               │
+│                                   │ More complete analysis                              │
+│                                                                                         │
+│  Independent heuristic design   │ Each testable in isolation                            │
+│                                   │ Easier debugging                                    │
+│                                                                                         │
+│  Deferred multi-tx analysis    │ Simpler initial implementation                         │
+│                                   │ (full peeling chain tracking deferred)              │
+│                                                                                         │
+│  DESIGN DECISIONS:                                                                      │
+│  ══════════════════                                                                     │
+│                                                                                         │
+│  Decision                          │ Rationale                                          │
+│  ──────────────────────────────────┼───────────────────────────────────                 │
+│  Confidence as string             │ More interpretable than numeric scores              │
+│  ("high/medium/low")             │ Matches JSON schema example                          │
+│                                   │ Avoids false precision                              │
+│                                                                                         │
+│  OP_RETURN protocol detection    │ Only verified prefixes (Omni, OpenAssets)            │
+│                                   │ Avoids false positives                              │
+│                                                                                         │
+│  0.001 BTC round threshold       │ Below = dust/fees, not payments                      │
+│                                   │ Avoids false positives                              │
+│                                                                                         │
+│  Block-level freshness only      │ Full-chain requires UTXO set                         │
+│                                   │ Not available in block-file analysis                │
+│                                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
