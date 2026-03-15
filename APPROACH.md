@@ -18,33 +18,33 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                           TECHNOLOGY STACK                                            │
+│                           TECHNOLOGY STACK                                              │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│  ┌─────────────────────────────────────────────────────────────────────────────────┐        │
-│  │                         BACKEND (Go)                                        │        │
-│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐        │        │
-│  │  │   Go 1.21+     │  │   net/http     │  │   encoding/json │        │        │
-│  │  │   Language     │  │   HTTP Server  │  │   JSON Marshal  │        │        │
-│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘        │        │
-│  └─────────────────────────────────────────────────────────────────────────────────┘        │
-│                                                                                          │
-│  ┌─────────────────────────────────────────────────────────────────────────────────┐        │
-│  │                         FRONTEND (React)                                      │        │
-│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐        │        │
-│  │  │    React       │  │    Webpack     │  │      CSS       │        │        │
-│  │  │    18.x        │  │    Bundler     │  │   Styling      │        │        │
-│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘        │        │
-│  └─────────────────────────────────────────────────────────────────────────────────┘        │
-│                                                                                          │
-│  ┌─────────────────────────────────────────────────────────────────────────────────┐        │
-│  │                         BUILD TOOLS                                            │        │
-│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐        │        │
-│  │  │     bash        │  │      go        │  │    node/npm    │        │        │
-│  │  │   Scripts       │  │   Build       │  │   JS Bundling │        │        │
-│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘        │        │
-│  └─────────────────────────────────────────────────────────────────────────────────┘        │
-│                                                                                          │
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐    │
+│  │                         BACKEND (Go)                                            │    │
+│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                  │    │
+│  │  │   Go 1.21+      │  │   net/http      │  │   encoding/json │                  │    │
+│  │  │   Language      │  │   HTTP Server   │  │   JSON Marshal  │                  │    │
+│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘                  │    │
+│  └─────────────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐    │
+│  │                         FRONTEND (React)                                        │    │
+│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                  │    │
+│  │  │    React        │  │    Webpack      │  │      CSS        │                  │    │
+│  │  │    18.x         │  │    Bundler      │  │   Styling       │                  │    │
+│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘                  │    │
+│  └─────────────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐    │
+│  │                         BUILD TOOLS                                             │    │
+│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                  │    │
+│  │  │     bash        │  │      go         │  │    node/npm     │                  │    │
+│  │  │   Scripts       │  │   Build         │  │   JS Bundling   │                  │    │
+│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘                  │    │
+│  └─────────────────────────────────────────────────────────────────────────────────┘    │
+│                                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -54,47 +54,47 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                              WHY GO?                                               │
+│                              WHY GO?                                                    │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│  PERFORMANCE:                                                                            │
+│                                                                                         │
+│  PERFORMANCE:                                                                           │
 │  ═══════════                                                                            │
-│                                                                                          │
-│  • Compiled language - significantly faster than interpreted languages          │
-│  • Excellent for processing large binary files (blk.dat can be 100MB+)         │
-│  • Low memory footprint - important for parsing many blocks                    │
-│  • Built-in concurrency (goroutines) - can parallelize block processing       │
-│                                                                                          │
+│                                                                                         │
+│  • Compiled language - significantly faster than interpreted languages                  │
+│  • Excellent for processing large binary files (blk.dat can be 100MB+)                  │
+│  • Low memory footprint - important for parsing many blocks                             │
+│  • Built-in concurrency (goroutines) - can parallelize block processing                 │
+│                                                                                         │
 │  MEMORY SAFETY:                                                                         │
 │  ══════════════                                                                         │
-│                                                                                          │
-│  • No buffer overflow vulnerabilities                                                │
-│  • Automatic memory management (garbage collection)                                 │
-│  • Prevents common security issues in C/C++ parsers                               │
-│                                                                                          │
-│  CRYPTOGRAPHIC SUPPORT:                                                                │
+│                                                                                         │
+│  • No buffer overflow vulnerabilities                                                   │
+│  • Automatic memory management (garbage collection)                                     │
+│  • Prevents common security issues in C/C++ parsers                                     │
+│                                                                                         │
+│  CRYPTOGRAPHIC SUPPORT:                                                                 │
 │  ════════════════════════                                                               │
-│                                                                                          │
-│  • SHA256, SHA256d needed for block hashing                                        │
-│  • Hash160 for address derivation                                                 │
-│  • Clean byte manipulation for binary parsing                                     │
-│                                                                                          │
-│  TOOLING & ECOSYSTEM:                                                                 │
+│                                                                                         │
+│  • SHA256, SHA256d needed for block hashing                                             │
+│  • Hash160 for address derivation                                                       │
+│  • Clean byte manipulation for binary parsing                                           │
+│                                                                                         │
+│  TOOLING & ECOSYSTEM:                                                                   │
 │  ════════════════════                                                                   │
-│                                                                                          │
-│  • Single binary deployment - no runtime dependencies                                │
-│  • Excellent standard library (encoding, crypto, io, net/http)                     │
-│  • Fast compilation times                                                          │
-│  • Great for CLI tools                                                            │
-│                                                                                          │
-│  ALTERNATIVES CONSIDERED:                                                            │
-│  ════════════════════════                                                             │
-│                                                                                          │
-│  ❌ Python - Too slow for large file processing                                    │
-│  ❌ C/C++ - Memory safety concerns, complex build                                 │
-│  ❌ Rust - Steeper learning curve, longer compile times                            │
-│  ❌ Node.js - Less suitable for binary parsing                                     │
-│                                                                                          │
+│                                                                                         │
+│  • Single binary deployment - no runtime dependencies                                   │
+│  • Excellent standard library (encoding, crypto, io, net/http)                          │
+│  • Fast compilation times                                                               │
+│  • Great for CLI tools                                                                  │
+│                                                                                         │
+│  ALTERNATIVES CONSIDERED:                                                               │
+│  ════════════════════════                                                               │
+│                                                                                         │
+│  ❌ Python - Too slow for large file processing                                        │
+│  ❌ C/C++ - Memory safety concerns, complex build                                      │
+│  ❌ Rust - Steeper learning curve, longer compile times                                │
+│  ❌ Node.js - Less suitable for binary parsing                                         │
+│                                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -102,43 +102,43 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                           WHY REACT?                                               │
+│                           WHY REACT?                                                    │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│  COMPONENT-BASED ARCHITECTURE:                                                       │
+│                                                                                         │
+│  COMPONENT-BASED ARCHITECTURE:                                                          │
 │  ══════════════════════════════                                                         │
-│                                                                                          │
-│  • Reusable components: Dashboard, BlockView, TransactionTable, BarChart           │
-│  • Each component has single responsibility                                       │
-│  • Easy to maintain and extend                                                    │
-│                                                                                          │
-│  INTERACTIVE UI:                                                                    │
-│  ════════════════                                                                     │
-│                                                                                          │
-│  • State management for filtering/sorting transactions                            │
-│  • Dynamic tooltips for educational content                                       │
-│  • Real-time updates when loading new blocks                                     │
-│                                                                                          │
-│  PERFORMANCE:                                                                        │
+│                                                                                         │
+│  • Reusable components: Dashboard, BlockView, TransactionTable, BarChart                │
+│  • Each component has single responsibility                                             │
+│  • Easy to maintain and extend                                                          │
+│                                                                                         │
+│  INTERACTIVE UI:                                                                        │
+│  ════════════════                                                                       │
+│                                                                                         │
+│  • State management for filtering/sorting transactions                                  │
+│  • Dynamic tooltips for educational content                                             │
+│  • Real-time updates when loading new blocks                                            │
+│                                                                                         │
+│  PERFORMANCE:                                                                           │
 │  ═══════════                                                                            │
-│                                                                                          │
-│  • Virtual DOM - efficient rendering of large transaction lists (3000+ txs)      │
-│  • Efficient updates - only re-renders changed components                        │
-│                                                                                          │
-│  TOOLING & COMMUNITY:                                                               │
-│  ════════════════════                                                                 │
-│                                                                                          │
-│  • Huge ecosystem of libraries                                                   │
-│  • Excellent developer experience                                                │
-│  • Easy to find solutions to common problems                                    │
-│                                                                                          │
-│  ALTERNATIVES CONSIDERED:                                                            │
-│  ════════════════════════                                                             │
-│                                                                                          │
-│  ❌ Vue - Smaller ecosystem                                                       │
-│  ❌ Svelte - Less mature ecosystem                                               │
-│  ❌ Vanilla JS - Harder to maintain complex state                                │
-│                                                                                          │
+│                                                                                         │
+│  • Virtual DOM - efficient rendering of large transaction lists (3000+ txs)             │
+│  • Efficient updates - only re-renders changed components                               │
+│                                                                                         │
+│  TOOLING & COMMUNITY:                                                                   │
+│  ════════════════════                                                                   │
+│                                                                                         │
+│  • Huge ecosystem of libraries                                                          │
+│  • Excellent developer experience                                                       │
+│  • Easy to find solutions to common problems                                            │
+│                                                                                         │
+│  ALTERNATIVES CONSIDERED:                                                               │
+│  ════════════════════════                                                               │
+│                                                                                         │
+│  ❌ Vue - Smaller ecosystem                                                             │
+│  ❌ Svelte - Less mature ecosystem                                                      │
+│  ❌ Vanilla JS - Harder to maintain complex state                                       │
+│                                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -146,36 +146,36 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                          WHY WEBPACK?                                              │
+│                          WHY WEBPACK?                                                   │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│  CODE BUNDLING:                                                                       │
+│                                                                                         │
+│  CODE BUNDLING:                                                                         │
+│  ══════════════                                                                         │
+│                                                                                         │
+│  • Bundles all JS/CSS into single file (bundle.js)                                      │
+│  • Tree shaking - removes unused code                                                   │
+│  • Minification for production                                                          │
+│                                                                                         │
+│  MODULE SUPPORT:                                                                        │
+│  ════════════════                                                                       │
+│                                                                                         │
+│  • ES6 modules - clean import/export                                                    │
+│  • CSS module support                                                                   │
+│  • Asset management (images, fonts)                                                    │
+│                                                                                        │
+│  DEV SERVER:                                                                           │
 │  ══════════════                                                                        │
-│                                                                                          │
-│  • Bundles all JS/CSS into single file (bundle.js)                              │
-│  • Tree shaking - removes unused code                                          │
-│  • Minification for production                                                  │
-│                                                                                          │
-│  MODULE SUPPORT:                                                                      │
-│  ════════════════                                                                     │
-│                                                                                          │
-│  • ES6 modules - clean import/export                                            │
-│  • CSS module support                                                            │
-│  • Asset management (images, fonts)                                              │
-│                                                                                          │
-│  DEV SERVER:                                                                          │
-│  ══════════════                                                                        │
-│                                                                                          │
-│  • Hot reload during development                                                 │
-│  • Fast iteration cycle                                                         │
-│                                                                                          │
-│  ALTERNATIVES CONSIDERED:                                                            │
-│  ════════════════════════                                                             │
-│                                                                                          │
-│  ❌ Vite - Not available in this project setup                                   │
-│  ❌ esbuild - Less mature at project start time                                  │
-│  ❌ Rollup - More for libraries, not apps                                        │
-│                                                                                          │
+│                                                                                        │
+│  • Hot reload during development                                                       │
+│  • Fast iteration cycle                                                                │
+│                                                                                        │
+│  ALTERNATIVES CONSIDERED:                                                              │
+│  ════════════════════════                                                              │
+│                                                                                        │
+│  ❌ Vite - Not available in this project setup                                         │
+│  ❌ esbuild - Less mature at project start time                                        │
+│  ❌ Rollup - More for libraries, not apps                                              │
+│                                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -183,37 +183,37 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                           WHY BASH?                                                │
+│                           WHY BASH?                                                     │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│  STANDARD CLI INTERFACE:                                                             │
-│  ════════════════════════                                                            │
-│                                                                                          │
-│  • Standard Unix/Linux convention for CLI tools                                   │
-│  • Works on macOS, Linux, WSL, Git Bash                                         │
-│                                                                                          │
-│  SCRIPTING CAPABILITIES:                                                            │
-│  ════════════════════                                                                │
-│                                                                                          │
-│  • Argument parsing with getopts                                                  │
-│  • File existence checks                                                          │
-│  • Directory creation (mkdir -p)                                                  │
-│  • Conditional execution                                                           │
-│                                                                                          │
-│  BUILD AUTOMATION:                                                                  │
-│  ═══════════════════                                                                │
-│                                                                                          │
-│  • Compiles Go binaries                                                           │
-│  • Runs npm install                                                              │
-│  • Handles errors gracefully                                                     │
-│                                                                                          │
-│  ALTERNATIVES CONSIDERED:                                                            │
-│  ════════════════════════                                                             │
-│                                                                                          │
-│  ❌ PowerShell - Windows-specific                                                 │
-│  ❌ Python - Additional dependency                                                │
-│  ❌ Batch - Limited functionality                                                 │
-│                                                                                          │
+│                                                                                         │
+│  STANDARD CLI INTERFACE:                                                                │
+│  ════════════════════════                                                               │
+│                                                                                         │
+│  • Standard Unix/Linux convention for CLI tools                                         │
+│  • Works on macOS, Linux, WSL, Git Bash                                                 │
+│                                                                                         │
+│  SCRIPTING CAPABILITIES:                                                                │
+│  ════════════════════                                                                   │
+│                                                                                         │
+│  • Argument parsing with getopts                                                        │
+│  • File existence checks                                                                │
+│  • Directory creation (mkdir -p)                                                        │
+│  • Conditional execution                                                                │
+│                                                                                         │
+│  BUILD AUTOMATION:                                                                      │
+│  ═══════════════════                                                                    │
+│                                                                                         │
+│  • Compiles Go binaries                                                                 │
+│  • Runs npm install                                                                     │
+│  • Handles errors gracefully                                                            │
+│                                                                                         │
+│  ALTERNATIVES CONSIDERED:                                                              │
+│  ════════════════════════                                                              │
+│                                                                                        │
+│  ❌ PowerShell - Windows-specific                                                      │
+│  ❌ Python - Additional dependency                                                     │
+│  ❌ Batch - Limited functionality                                                      │
+│                                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -221,34 +221,34 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                        TECHNOLOGY DECISION SUMMARY                                   │
+│                        TECHNOLOGY DECISION SUMMARY                                      │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│  Component        │ Technology      │ Version    │ Reason for Choice                 │
-│  ────────────────┼─────────────────┼────────────┼─────────────────────────────       │
-│  Backend Lang    │ Go              │ 1.21+     │ Performance, memory safety        │
-│  HTTP Server     │ net/http        │ Built-in   │ Simple, no external deps        │
-│  JSON Handling   │ encoding/json   │ Built-in   │ Native marshaling              │
-│  Frontend        │ React           │ 18.2       │ Component-based, interactive    │
-│  Build Tool      │ Webpack         │ 5.x        │ Bundling, optimization         │
-│  Styling         │ CSS             │ -          │ Custom design                  │
-│  CLI Scripts     │ Bash            │ -          │ Standard Unix interface        │
-│  Package Manager │ npm             │ -          │ JS dependency management       │
-│                                                                                          │
-│  RUNTIME REQUIREMENTS:                                                              │
-│  ═════════════════════                                                               │
-│                                                                                          │
-│  • CLI: Go runtime (single binary)                                               │
-│  • Web Server: Go runtime + static files                                        │
-│  • Frontend: Modern browser (Chrome, Firefox, Safari, Edge)                       │
-│                                                                                          │
-│  DEPLOYMENT:                                                                        │
+│                                                                                         │
+│  Component       │ Technology      │ Version    │ Reason for Choice                     │
+│  ────────────────┼─────────────────┼────────────┼─────────────────────────────          │
+│  Backend Lang    │ Go              │ 1.21+      │ Performance, memory safety            │
+│  HTTP Server     │ net/http        │ Built-in   │ Simple, no external deps              │
+│  JSON Handling   │ encoding/json   │ Built-in   │ Native marshaling                     │
+│  Frontend        │ React           │ 18.2       │ Component-based, interactive          │
+│  Build Tool      │ Webpack         │ 5.x        │ Bundling, optimization                │
+│  Styling         │ CSS             │ -          │ Custom design                         │
+│  CLI Scripts     │ Bash            │ -          │ Standard Unix interface               │
+│  Package Manager │ npm             │ -          │ JS dependency management              │
+│                                                                                         │
+│  RUNTIME REQUIREMENTS:                                                                  │
+│  ═════════════════════                                                                  │
+│                                                                                         │
+│  • CLI: Go runtime (single binary)                                                      │
+│  • Web Server: Go runtime + static files                                                │
+│  • Frontend: Modern browser (Chrome, Firefox, Safari, Edge)                             │
+│                                                                                         │
+│  DEPLOYMENT:                                                                            │
 │  ═══════════                                                                            │
-│                                                                                          │
-│  • CLI: Single binary - `go build -o bin/sherlock-cli ./cmd/cli`                  │
-│  • Web: Binary + static files - `go build + web/dist/*`                         │
-│  • No containers needed - simple deployment                                       │
-│                                                                                          │
+│                                                                                         │
+│  • CLI: Single binary - `go build -o bin/sherlock-cli ./cmd/cli`                        │
+│  • Web: Binary + static files - `go build + web/dist/*`                                 │
+│  • No containers needed - simple deployment                                             │
+│                                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -665,8 +665,8 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 │    {                           # Chain Analysis Report: blk04330.dat        │
 │      "ok": true,          ──────────────────────────────────────        │
 │      "mode": "chain_     │                                             │
-│        analysis",          │ ## Summary                                   │
-│      "file": "blk04330    │ | Metric | Value |                         │
+│        analysis",        │ ## Summary                                   │
+│      "file": "blk04330   │ | Metric | Value |                         │
 │        .dat",            │ |--------|-------|                         │
 │      "block_count": 84,  │ | Blocks | 84 |                           │
 │      "analysis_summary": │ ...                                         │
