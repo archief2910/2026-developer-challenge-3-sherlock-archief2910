@@ -32,5 +32,14 @@ go build -o bin/sherlock-cli ./cmd/cli
 echo "Building web server..."
 go build -o bin/sherlock-web ./cmd/web
 
+# Build React frontend
+echo "Building React frontend..."
+cd web/ui
+npm install
+node node_modules/webpack/bin/webpack.js --mode production
+mkdir -p ../dist
+cp index.html ../dist/index.html
+cd ../..
+
 echo ""
 echo "Setup complete!"
