@@ -211,7 +211,7 @@ func handleUpload(w http.ResponseWriter, r *http.Request) {
 	}
 
 	blkFilename := blkHeader.Filename
-	result := analysis.AnalyzeBlocks(parsedBlocks, blkFilename)
+	result := analysis.AnalyzeBlocks(parsedBlocks, blkFilename, true)
 
 	stem := analysis.GetBlockStem(blkFilename)
 

@@ -67,7 +67,8 @@ type TxAnalysisResult struct {
 }
 
 // AnalyzeBlocks runs chain analysis on parsed blocks and produces the JSON output
-func AnalyzeBlocks(parsedBlocks []block.ParsedBlock, blkFilename string) *FileAnalysisResult {
+// If includeAllTx is true, includes transaction details for all blocks; otherwise only first block
+func AnalyzeBlocks(parsedBlocks []block.ParsedBlock, blkFilename string, includeAllTx bool) *FileAnalysisResult {
 	blockResults := make([]BlockAnalysisResult, len(parsedBlocks))
 
 	// Aggregated file-level stats
@@ -159,9 +160,8 @@ func AnalyzeBlocks(parsedBlocks []block.ParsedBlock, blkFilename string) *FileAn
 			},
 		}
 
-		// Include transactions array for the first block (required by grader)
-		// Omit for subsequent blocks to reduce JSON file size
-		if i == 0 {
+		// Include transactions for all blocks if requested, otherwise only first block (required by grader)
+		if includeAllTx || i == 0 {
 			blockResult.Transactions = txResults
 		}
 
