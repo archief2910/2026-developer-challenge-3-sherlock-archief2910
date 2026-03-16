@@ -274,74 +274,74 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                                    SHERLOCK SYSTEM                                       │
-│                         Bitcoin Chain Analysis Engine                                     │
+│                                    SHERLOCK SYSTEM                                      │
+│                         Bitcoin Chain Analysis Engine                                   │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
-│  │                                 INPUTS                                           │   │
-│  │  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐                          │   │
-│  │  │   blk*.dat  │   │   rev*.dat  │   │   xor.dat   │                          │   │
-│  │  │  (blocks)   │   │   (undo)    │   │  (XOR key)  │                          │   │
-│  │  └─────────────┘   └─────────────┘   └─────────────┘                          │   │
-│  └─────────────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                         │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐    │
+│  │                                 INPUTS                                          │    │
+│  │  ┌─────────────┐   ┌─────────────┐   ┌─────────────┐                            │    │
+│  │  │   blk*.dat  │   │   rev*.dat  │   │   xor.dat   │                            │    │
+│  │  │  (blocks)   │   │   (undo)    │   │  (XOR key)  │                            │    │
+│  │  └─────────────┘   └─────────────┘   └─────────────┘                            │    │
+│  └─────────────────────────────────────────────────────────────────────────────────┘    │
 │                                        │                                                │
 │                                        ▼                                                │
-│  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
-│  │                              PROCESSING LAYER                                     │   │
-│  │                                                                                  │   │
-│  │    ┌─────────────────────────────────────────────────────────────────────┐     │   │
-│  │    │                      BLOCK PARSER                                     │     │   │
-│  │    │  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐    │     │   │
-│  │    │  │ XOR Decode│──▶│Block Parse│──▶│ Undo Parse│──▶│ TX Enrich │    │     │   │
-│  │    │  └──────────┘   └──────────┘   └──────────┘   └──────────┘    │     │   │
-│  │    └─────────────────────────────────────────────────────────────────────┘     │   │
-│  │                                        │                                          │   │
-│  │                                        ▼                                          │   │
-│  │    ┌─────────────────────────────────────────────────────────────────────┐     │   │
-│  │    │                    HEURISTICS ENGINE                                 │     │   │
-│  │    │                                                                      │     │   │
-│  │    │   ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐         │     │   │
-│  │    │   │ CIOH   │ │Change  │ │Addr    │ │Coin    │ │Consol  │  ...   │     │   │
-│  │    │   │        │ │Detect  │ │Reuse   │ │Join    │ │idation │         │     │   │
-│  │    │   └───┬────┘ └───┬────┘ └───┬────┘ └───┬────┘ └───┬────┘         │     │   │
-│  │    │       │          │          │          │          │                │     │   │
-│  │    │       └──────────┴──────────┴──────────┴──────────┘                │     │   │
-│  │    │                            │                                        │     │   │
-│  │    │                            ▼                                        │     │   │
-│  │    │                   ┌──────────────┐                             │     │   │
-│  │    │                   │CLASSIFIER     │                             │     │   │
-│  │    │                   │(priority-based)│                            │     │   │
-│  │    │                   └──────────────┘                             │     │   │
-│  │    └─────────────────────────────────────────────────────────────────────┘     │   │
-│  │                                        │                                          │   │
-│  │                                        ▼                                          │   │
-│  │    ┌─────────────────────────────────────────────────────────────────────┐     │   │
-│  │    │                   AGGREGATION LAYER                               │     │   │
-│  │    │    ┌──────────────────┐    ┌──────────────────┐                   │     │   │
-│  │    │    │  Per-Block Stats │    │ File-Level Stats │                   │     │   │
-│  │    │    │  • tx_count       │    │  • total_txs    │                   │     │   │
-│  │    │    │  • flagged        │    │  • flagged       │                   │     │   │
-│  │    │    │  • fee_rates     │    │  • fee_rates    │                   │     │   │
-│  │    │    │  • scripts        │    │  • scripts      │                   │     │   │
-│  │    │    └──────────────────┘    └──────────────────┘                   │     │   │
-│  │    └─────────────────────────────────────────────────────────────────────┘     │   │
+│  ┌─────────────────────────────────────────────────────────────────────────────────┐    │
+│  │                              PROCESSING LAYER                                   │    │
+│  │                                                                                 │    │
+│  │    ┌─────────────────────────────────────────────────────────────────────┐      │    │
+│  │    │                      BLOCK PARSER                                   │      │    │
+│  │    │  ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐          │      │    │
+│  │    │  │ XOR Decode│──▶│Block Parse│──▶│ Undo Parse│──▶│ TX Enrich      │      │    │
+│  │    │  └──────────┘   └──────────┘   └──────────┘   └──────────┘          │      │    │
+│  │    └─────────────────────────────────────────────────────────────────────┘       │   │
+│  │                                        │                                         │   │
+│  │                                        ▼                                         │   │
+│  │    ┌─────────────────────────────────────────────────────────────────────┐       │   │
+│  │    │                    HEURISTICS ENGINE                                 │      │   │
+│  │    │                                                                      │      │   │
+│  │    │   ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐             │      │   │
+│  │    │   │ CIOH   │ │Change  │ │Addr    │ │Coin    │ │Consol  │  ...        │      │   │
+│  │    │   │        │ │Detect  │ │Reuse   │ │Join    │ │idation │             │      │   │
+│  │    │   └───┬────┘ └───┬────┘ └───┬────┘ └───┬────┘ └───┬────┘              │     │   │
+│  │    │       │          │          │          │          │                  │     │   │
+│  │    │       └──────────┴──────────┴──────────┴──────────┘                  │     │   │
+│  │    │                            │                                          │     │   │
+│  │    │                            ▼                                         │     │   │
+│  │    │                   ┌──────────────┐                                    │     │   │
+│  │    │                   │CLASSIFIER     │                                   │     │   │
+│  │    │                   │(priority-based)│                                  │     │   │
+│  │    │                   └──────────────┘                                    │     │   │
+│  │    └─────────────────────────────────────────────────────────────────────┘       │   │
+│  │                                        │                                         │   │
+│  │                                        ▼                                         │   │
+│  │    ┌─────────────────────────────────────────────────────────────────────┐       │   │
+│  │    │                   AGGREGATION LAYER                                 │       │   │
+│  │    │    ┌──────────────────┐    ┌──────────────────┐                     │       │   │
+│  │    │    │  Per-Block Stats │    │ File-Level Stats │                     │       │   │
+│  │    │    │  • tx_count       │    │  • total_txs    │                     │       │   │
+│  │    │    │  • flagged        │    │  • flagged       │                    │       │   │
+│  │    │    │  • fee_rates     │    │  • fee_rates    │                      │       │   │
+│  │    │    │  • scripts        │    │  • scripts      │                     │       │   │
+│  │    │    └──────────────────┘    └──────────────────┘                     │       │   │
+│  │    └─────────────────────────────────────────────────────────────────────┘       │   │
 │  └─────────────────────────────────────────────────────────────────────────────────┘   │
-│                                        │                                                │
-│                                        ▼                                                │
+│                                        │                                               │
+│                                        ▼                                               │
 │  ┌─────────────────────────────────────────────────────────────────────────────────┐   │
 │  │                                OUTPUTS                                          │   │
-│  │                                                                                  │   │
-│  │  ┌─────────────────────┐                      ┌─────────────────────┐          │   │
-│  │  │    JSON OUTPUT     │                      │   MARKDOWN REPORT  │          │   │
-│  │  │   out/blk*.json   │                      │    out/blk*.md    │          │   │
+│  │                                                                                 │   │
+│  │  ┌─────────────────────┐                      ┌─────────────────────┐           │   │
+│  │  │    JSON OUTPUT     │                      │   MARKDOWN REPORT  │             │   │
+│  │  │   out/blk*.json    │                      │    out/blk*.md    │               │   │
 │  │  │                    │                      │                     │          │   │
 │  │  │ {                 │                      │ # Chain Analysis    │          │   │
-│  │  │   "ok": true,    │                      │ ## Summary         │          │   │
-│  │  │   "blocks": [...],│                      │ ### Block 1: ...  │          │   │
+│  │  │   "ok": true,      │                      │ ## Summary         │          │   │
+│  │  │   "blocks": [...],  │                      │ ### Block 1: ...  │          │   │
 │  │  │   "analysis": {...}                      │ ### Block 2: ...  │          │   │
-│  │  │ }                 │                      │                    │          │   │
-│  │  └─────────────────────┘                      └─────────────────────┘          │   │
+│  │  │ }                   │                      │                    │          │   │
+│  │  └─────────────────────┘                    └─────────────────────┘          │   │
 │  │            │                                          │                      │   │
 │  │            └──────────────────┬───────────────────────┘                      │   │
 │  │                               ▼                                              │   │
@@ -452,199 +452,199 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────┐
-│                              DATA FLOW: RAW FILES TO OUTPUT                              │
+│                              DATA FLOW: RAW FILES TO OUTPUT                             │
 ├─────────────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                          │
-│  STEP 1: INPUT FILES                                                                  │
-│  ════════════════════                                                                  │
-│                                                                                          │
-│    blk04330.dat          rev04330.dat          xor.dat                                    │
-│  ┌──────────────┐     ┌──────────────┐     ┌──────────┐                               │
-│  │ 0xf9beb4d9   │     │ 0xf9beb4d9   │     │ 0xAB    │  (magic number + data)   │
-│  │ (magic)      │     │ (magic)      │     │ (key)    │                               │
-│  │ + block data │     │ + undo data  │     │          │                               │
-│  └──────┬───────┘     └──────┬───────┘     └────┬─────┘                               │
+│                                                                                         │
+│  STEP 1: INPUT FILES                                                                    │
+│  ════════════════════                                                                   │
+│                                                                                         │
+│    blk04330.dat          rev04330.dat          xor.dat                                  │
+│  ┌──────────────┐     ┌──────────────┐     ┌──────────┐                                 │
+│  │ 0xf9beb4d9   │     │ 0xf9beb4d9   │     │ 0xAB     │  (magic number + data)          │
+│  │ (magic)      │     │ (magic)      │     │ (key)    │                                 │
+│  │ + block data │     │ + undo data  │     │          │                                 │
+│  └──────┬───────┘     └──────┬───────┘     └────┬─────┘                                 │
 │         │                    │                   │                                      │
 │         └────────────────────┼───────────────────┘                                      │
-│                              ▼                                                           │
-│  STEP 2: XOR DECODE                                                                   │
+│                              ▼                                                          │
+│  STEP 2: XOR DECODE                                                                     │
 │  ════════════════════                                                                   │
-│                                                                                          │
-│    For each byte in blk.dat and rev.dat:                                               │
-│      decoded[i] = encoded[i] XOR key[i % keylen]                                       │
-│                                                                                          │
+│                                                                                         │
+│    For each byte in blk.dat and rev.dat:                                                │
+│      decoded[i] = encoded[i] XOR key[i % keylen]                                        │
+│                                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────┐                    │
-│  │  XOR DECODER (internal/block/block.go)                         │                    │
+│  │  XOR DECODER (internal/block/block.go)                          │                    │
 │  │                                                                 │                    │
-│  │  Input: blk.dat + xor.dat    Output: decoded blk data         │                    │
-│  │  Input: rev.dat + xor.dat    Output: decoded undo data        │                    │
+│  │  Input: blk.dat + xor.dat    Output: decoded blk data           │                    │
+│  │  Input: rev.dat + xor.dat    Output: decoded undo data          │                    │
 │  └─────────────────────────────────────────────────────────────────┘                    │
 │                              │                                                          │
 │                              ▼                                                          │
-│  STEP 3: BLOCK PARSING                                                                │
+│  STEP 3: BLOCK PARSING                                                                  │
 │  ═══════════════════════                                                                │
-│                                                                                          │
+│                                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────┐                    │
-│  │  PARSE BLOCKS (internal/block/block.go)                        │                    │
+│  │  PARSE BLOCKS (internal/block/block.go)                         │                    │
 │  │                                                                 │                    │
 │  │  For each block in decoded data:                                │                    │
-│  │    1. Read magic number (4 bytes) ──▶ 0xf9beb4d9               │                    │
-│  │    2. Read block size (4 bytes)                                │                    │
-│  │    3. Read 80-byte header:                                     │                    │
-│  │       • version (4 bytes)                                      │                    │
-│  │       • prevblockhash (32 bytes)                              │                    │
-│  │       • merkleroot (32 bytes)                                 │                    │
+│  │    1. Read magic number (4 bytes) ──▶ 0xf9beb4d9                │                    │
+│  │    2. Read block size (4 bytes)                                 │                    │
+│  │    3. Read 80-byte header:                                      │                    │
+│  │       • version (4 bytes)                                       │                    │
+│  │       • prevblockhash (32 bytes)                                │                    │
+│  │       • merkleroot (32 bytes)                                   │                    │
 │  │       • timestamp (4 bytes)                                     │                    │
-│  │       • bits (4 bytes)                                         │                    │
-│  │       • nonce (4 bytes)                                        │                    │
-│  │    4. Compute block_hash = SHA256d(header)                   │                    │
-│  │    5. Parse transactions:                                      │                    │
-│  │       • tx_count (varint)                                      │                    │
-│  │       • For each tx:                                           │                    │
-│  │         - inputs (count + data)                               │                    │
-│  │         - outputs (count + data)                               │                    │
-│  │         - locktime (4 bytes)                                  │                    │
+│  │       • bits (4 bytes)                                          │                    │
+│  │       • nonce (4 bytes)                                         │                    │
+│  │    4. Compute block_hash = SHA256d(header)                      │                    │
+│  │    5. Parse transactions:                                       │                    │
+│  │       • tx_count (varint)                                       │                    │
+│  │       • For each tx:                                            │                    │
+│  │         - inputs (count + data)                                 │                    │
+│  │         - outputs (count + data)                                │                    │
+│  │         - locktime (4 bytes)                                    │                    │
 │  └─────────────────────────────────────────────────────────────────┘                    │
 │                              │                                                          │
 │                              ▼                                                          │
-│  STEP 4: UNDO DATA PARSING                                                            │
+│  STEP 4: UNDO DATA PARSING                                                              │
 │  ═══════════════════════════                                                            │
-│                                                                                          │
+│                                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────┐                    │
-│  │  PARSE UNDO DATA (internal/block/block.go)                     │                    │
+│  │  PARSE UNDO DATA (internal/block/block.go)                      │                    │
 │  │                                                                 │                    │
-│  │  Undo data provides "what was spent" for each input:           │                    │
+│  │  Undo data provides "what was spent" for each input:            │                    │
 │  │                                                                 │                    │
-│  │  For each transaction in block:                                  │                    │
-│  │    For each input (except coinbase):                           │                    │
-│  │      • prevout value (compressed)                              │                    │
-│  │      • prevout script (compressed)                             │                    │
+│  │  For each transaction in block:                                 │                    │
+│  │    For each input (except coinbase):                            │                    │
+│  │      • prevout value (compressed)                               │                    │
+│  │      • prevout script (compressed)                              │                    │
 │  │                                                                 │                    │
-│  │  CRITICAL: This is needed to calculate fees:                   │                    │
+│  │  CRITICAL: This is needed to calculate fees:                    │                    │
 │  │                                                                 │                    │
-│  │    Fee = Σ(input_values) - Σ(output_values)                  │                    │
+│  │    Fee = Σ(input_values) - Σ(output_values)                     │                    │
 │  └─────────────────────────────────────────────────────────────────┘                    │
 │                              │                                                          │
 │                              ▼                                                          │
-│  STEP 5: TRANSACTION ENRICHMENT                                                        │
+│  STEP 5: TRANSACTION ENRICHMENT                                                         │
 │  ══════════════════════════════                                                         │
-│                                                                                          │
+│                                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────┐                    │
 │  │  ENRICH TRANSACTIONS (internal/block/block.go)                  │                    │
 │  │                                                                 │                    │
 │  │  For each transaction:                                          │                    │
-│  │    1. Compute TXID = SHA256d(legacy_serialization)             │                    │
-│  │    2. Classify output scripts:                                 │                    │
-│  │         • 0x76a914... → P2PKH                                 │                    │
-│  │         • 0xa914... → P2SH                                    │                    │
-│  │         • 0x0014... → P2WPKH                                 │                    │
-│  │         • 0x0020... → P2WSH                                   │                    │
-│  │         • 0x5120... → P2TR                                    │                    │
-│  │    3. Derive addresses from scripts                            │                    │
+│  │    1. Compute TXID = SHA256d(legacy_serialization)              │                    │
+│  │    2. Classify output scripts:                                  │                    │
+│  │         • 0x76a914... → P2PKH                                   │                    │
+│  │         • 0xa914... → P2SH                                      │                    │
+│  │         • 0x0014... → P2WPKH                                    │                    │
+│  │         • 0x0020... → P2WSH                                     │                    │
+│  │         • 0x5120... → P2TR                                      │                    │
+│  │    3. Derive addresses from scripts                             │                    │
 │  │    4. Calculate fees:                                           │                    │
-│  │         • total_input_sats = Σ(prevout values)                │                    │
-│  │         • total_output_sats = Σ(output values)                │                    │
-│  │         • fee_sats = inputs - outputs                         │                    │
+│  │         • total_input_sats = Σ(prevout values)                  │                    │
+│  │         • total_output_sats = Σ(output values)                  │                    │
+│  │         • fee_sats = inputs - outputs                           │                    │
 │  │    5. Calculate fee rate:                                       │                    │
-│  │         • weight = witness*4 + non_witness                     │                    │
-│  │         • vbytes = weight / 4                                  │                    │
+│  │         • weight = witness*4 + non_witness                      │                    │
+│  │         • vbytes = weight / 4                                   │                    │
 │  │         • fee_rate = fee_sats / vbytes                          │                    │
 │  └─────────────────────────────────────────────────────────────────┘                    │
 │                              │                                                          │
 │                              ▼                                                          │
-│  STEP 6: BUILD ADDRESS MAP                                                           │
-│  ══════════════════════════                                                            │
-│                                                                                          │
+│  STEP 6: BUILD ADDRESS MAP                                                              │
+│  ══════════════════════════                                                             │
+│                                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────┐                    │
 │  │  BLOCK ADDRESS MAP (internal/heuristics/heuristics.go)          │                    │
 │  │                                                                 │                    │
-│  │  Build: Map<address, [{tx_idx, is_input, is_output}]>         │                    │
+│  │  Build: Map<address, [{tx_idx, is_input, is_output}]>           │                    │
 │  │                                                                 │                    │
 │  │  Purpose: Detect CROSS-TRANSACTION address reuse                │                    │
 │  │                                                                 │                    │
 │  │  Example:                                                       │                    │
-│  │    Tx1: A → B                                                 │                    │
-│  │    Tx2: B → C  (B appears in tx2 input, was output in tx1)  │                    │
-│  │    → Address reuse detected!                                  │                    │
+│  │    Tx1: A → B                                                   │                    │
+│  │    Tx2: B → C  (B appears in tx2 input, was output in tx1)      │                    │
+│  │    → Address reuse detected!                                    │                    │
 │  └─────────────────────────────────────────────────────────────────┘                    │
 │                              │                                                          │
 │                              ▼                                                          │
-│  STEP 7: APPLY HEURISTICS                                                             │
-│  ════════════════════════                                                                │
-│                                                                                          │
+│  STEP 7: APPLY HEURISTICS                                                               │
+│  ════════════════════════                                                               │
+│                                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────┐                    │
-│  │  HEURISTICS ENGINE (internal/heuristics/heuristics.go)         │                    │
+│  │  HEURISTICS ENGINE (internal/heuristics/heuristics.go)          │                    │
 │  │                                                                 │                    │
-│  │  For each transaction, apply all 9 heuristics:                │                    │
+│  │  For each transaction, apply all 9 heuristics:                  │                    │
 │  │                                                                 │                    │
-│  │  ┌─────────────────────────────────────────────────────────┐   │                    │
-│  │  │ 1. CIOH (Common Input Ownership)                       │   │                    │
-│  │  │    if len(inputs) > 1: detected = true               │   │                    │
-│  │  ├─────────────────────────────────────────────────────────┤   │                    │
-│  │  │ 2. Change Detection                                     │   │                    │
-│  │  │    6 methods: script_type, optimal_change, round...   │   │                    │
-│  │  ├─────────────────────────────────────────────────────────┤   │                    │
-│  │  │ 3. Address Reuse                                        │   │                    │
-│  │  │    Check: input_addr == output_addr                   │   │                    │
-│  │  ├─────────────────────────────────────────────────────────┤   │                    │
-│  │  │ 4. CoinJoin Detection                                   │   │                    │
-│  │  │    if 3+ equal outputs and 3+ inputs: detected=true  │   │                    │
-│  │  ├─────────────────────────────────────────────────────────┤   │                    │
-│  │  │ 5. Consolidation                                        │   │                    │
-│  │  │    if inputs >= 5 and outputs <= 2: detected=true     │   │                    │
-│  │  ├─────────────────────────────────────────────────────────┤   │                    │
-│  │  │ 6. Self-Transfer                                         │   │                    │
-│  │  │    if outputs == input_types and no round amounts:     │   │                    │
-│  │  ├─────────────────────────────────────────────────────────┤   │                    │
-│  │  │ 7. Peeling Chain                                        │   │                    │
-│  │  │    if 1 input and 2 outputs and ratio < 0.1:         │   │                    │
-│  │  ├─────────────────────────────────────────────────────────┤   │                    │
-│  │  │ 8. OP_RETURN Analysis                                   │   │                    │
-│  │  │    if script[0] == 0x6a: detected=true              │   │                    │
-│  │  ├─────────────────────────────────────────────────────────┤   │                    │
-│  │  │ 9. Round Number Payment                                 │   │                    │
-│  │  │    if output % 100000 == 0: round=true               │   │                    │
-│  │  └─────────────────────────────────────────────────────────┘   │                    │
+│  │  ┌─────────────────────────────────────────────────────────┐    │                    │
+│  │  │ 1. CIOH (Common Input Ownership)                        │    │                    │
+│  │  │    if len(inputs) > 1: detected = true                  │    │                    │
+│  │  ├─────────────────────────────────────────────────────────┤    │                    │
+│  │  │ 2. Change Detection                                     │    │                    │
+│  │  │    6 methods: script_type, optimal_change, round...     │    │                    │
+│  │  ├─────────────────────────────────────────────────────────┤    │                    │
+│  │  │ 3. Address Reuse                                        │    │                    │
+│  │  │    Check: input_addr == output_addr                     │    │                    │
+│  │  ├─────────────────────────────────────────────────────────┤    │                    │
+│  │  │ 4. CoinJoin Detection                                   │    │                    │
+│  │  │    if 3+ equal outputs and 3+ inputs: detected=true     │    │                    │
+│  │  ├─────────────────────────────────────────────────────────┤    │                    │
+│  │  │ 5. Consolidation                                        │    │                    │
+│  │  │    if inputs >= 5 and outputs <= 2: detected=true       │    │                    │
+│  │  ├─────────────────────────────────────────────────────────┤    │                    │
+│  │  │ 6. Self-Transfer                                        │    │                    │
+│  │  │    if outputs == input_types and no round amounts:      │    │                    │
+│  │  ├─────────────────────────────────────────────────────────┤    │                    │
+│  │  │ 7. Peeling Chain                                        │    │                    │
+│  │  │    if 1 input and 2 outputs and ratio < 0.1:            │    │                    │
+│  │  ├─────────────────────────────────────────────────────────┤    │                    │
+│  │  │ 8. OP_RETURN Analysis                                   │    │                    │
+│  │  │    if script[0] == 0x6a: detected=true                  │    │                    │
+│  │  ├─────────────────────────────────────────────────────────┤    │                    │
+│  │  │ 9. Round Number Payment                                 │    │                    │
+│  │  │    if output % 100000 == 0: round=true                  │    │                    │
+│  │  └─────────────────────────────────────────────────────────┘    │                    │
 │  │                                                                 │                    │
-│  │  AFTER all heuristics: Apply cross-heuristic interactions      │                    │
-│  │    • If CoinJoin: downgrade CIOH to low                       │                    │
-│  │    • If Peeling Chain: set change to larger output           │                    │
-│  │    • If Consolidation: suppress self-transfer                │                    │
+│  │  AFTER all heuristics: Apply cross-heuristic interactions       │                    │
+│  │    • If CoinJoin: downgrade CIOH to low                         │                    │
+│  │    • If Peeling Chain: set change to larger output              │                    │
+│  │    • If Consolidation: suppress self-transfer                   │                    │
 │  └─────────────────────────────────────────────────────────────────┘                    │
 │                              │                                                          │
 │                              ▼                                                          │
-│  STEP 8: CLASSIFY TRANSACTION                                                         │
+│  STEP 8: CLASSIFY TRANSACTION                                                           │
 │  ══════════════════════════════                                                         │
-│                                                                                          │
+│                                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────┐                    │
-│  │  TRANSACTION CLASSIFIER                                        │                    │
+│  │  TRANSACTION CLASSIFIER                                         │                    │
 │  │                                                                 │                    │
 │  │  Priority order (first match wins):                             │                    │
 │  │                                                                 │                    │
-│  │    ┌─────────────────────────────────────────────────────────┐│                    │
-│  │    │ 1. coinjoin        ← if CoinJoin detected              ││                    │
-│  │    │ 2. consolidation   ← if Consolidation detected           ││                    │
-│  │    │ 3. self_transfer  ← if SelfTransfer detected           ││                    │
-│  │    │ 4. batch_payment  ← 3+ outputs, ≤2 inputs            ││                    │
-│  │    │ 5. simple_payment ← 1 input, ≤2 outputs              ││                    │
-│  │    │ 6. unknown        ← otherwise                          ││                    │
-│  │    └─────────────────────────────────────────────────────────┘│                    │
+│  │    ┌─────────────────────────────────────────────────────────┐  │                    │
+│  │    │ 1. coinjoin        ← if CoinJoin detected               │  │                    │
+│  │    │ 2. consolidation   ← if Consolidation detected          │  │                    │
+│  │    │ 3. self_transfer  ← if SelfTransfer detected            │  │                    │
+│  │    │ 4. batch_payment  ← 3+ outputs, ≤2 inputs               │  │                    │
+│  │    │ 5. simple_payment ← 1 input, ≤2 outputs                 │  │                    │
+│  │    │ 6. unknown        ← otherwise                           │  │                    │
+│  │    └─────────────────────────────────────────────────────────┘  │                    │
 │  └─────────────────────────────────────────────────────────────────┘                    │
 │                              │                                                          │
 │                              ▼                                                          │
-│  STEP 9: AGGREGATE STATISTICS                                                         │
+│  STEP 9: AGGREGATE STATISTICS                                                           │
 │  ═══════════════════════════                                                            │
-│                                                                                          │
+│                                                                                         │
 │  ┌─────────────────────────────────────────────────────────────────┐                    │
-│  │  STATISTICS AGGREGATION (internal/analysis/analyzer.go)        │                    │
+│  │  STATISTICS AGGREGATION (internal/analysis/analyzer.go)         │                    │
 │  │                                                                 │                    │
 │  │  Per-Block:                                                     │                    │
 │  │    • tx_count = len(transactions)                               │                    │
-│  │    • flagged_transactions = count(tx with any heuristic)       │                    │
-│  │    • script_type_distribution = {type: count}                  │                    │
-│  │    • fee_rate_stats = {min, max, median, mean}              │                    │
-│  │    • heuristic_counts = {heuristic: count}                    │                    │
-│  │    • classification_counts = {class: count}                    │                    │
+│  │    • flagged_transactions = count(tx with any heuristic)        │                    │
+│  │    • script_type_distribution = {type: count}                   │                    │
+│  │    • fee_rate_stats = {min, max, median, mean}                  │                    │
+│  │    • heuristic_counts = {heuristic: count}                      │                    │
+│  │    • classification_counts = {class: count}                     │                    │
 │  │                                                                 │                    │
 │  │  File-Level:                                                    │                    │
 │  │    • Sum all per-block values                                   │                    │
@@ -652,28 +652,28 @@ Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockc
 │  └─────────────────────────────────────────────────────────────────┘                    │
 │                              │                                                          │
 │                              ▼                                                          │
-│  STEP 10: OUTPUT                                                                     │
-│  ══════════════════                                                                    │
-│                                                                                          │
-│    ┌─────────────────────┐           ┌─────────────────────┐                         │
-│    │   JSON OUTPUT       │           │   MARKDOWN REPORT   │                         │
-│    │   out/blk*.json    │           │   out/blk*.md      │                         │
-│    └─────────────────────┘           └─────────────────────┘                         │
+│  STEP 10: OUTPUT                                                                        │
+│  ══════════════════                                                                     │
+│                                                                                         │
+│    ┌─────────────────────┐           ┌─────────────────────┐                            │
+│    │   JSON OUTPUT       │           │   MARKDOWN REPORT   │                            │
+│    │   out/blk*.json     │           │   out/blk*.md       │                            │
+│    └─────────────────────┘           └─────────────────────┘                            │
 │              │                                   │                                      │
 │              │                                   │                                      │
 │              ▼                                   ▼                                      │
-│    {                           # Chain Analysis Report: blk04330.dat        │
-│      "ok": true,          ──────────────────────────────────────        │
-│      "mode": "chain_     │                                             │
-│        analysis",        │ ## Summary                                   │
-│      "file": "blk04330   │ | Metric | Value |                         │
-│        .dat",            │ |--------|-------|                         │
-│      "block_count": 84,  │ | Blocks | 84 |                           │
-│      "analysis_summary": │ ...                                         │
-│        {...},            │                                             │
-│      "blocks": [...]     │                                             │
-│    }                     │                                             │
-│                                                                                          │
+│    {                           # Chain Analysis Report: blk04330.dat                    │
+│      "ok": true,          ──────────────────────────────────────                        │
+│      "mode": "chain_     │                                                              │
+│        analysis",        │ ## Summary                                                   │
+│      "file": "blk04330   │ | Metric | Value |                                           │
+│        .dat",            │ |--------|-------|                                           │
+│      "block_count": 84,  │ | Blocks | 84 |                                              │
+│      "analysis_summary": │ ...                                                          │
+│        {...},            │                                                              │
+│      "blocks": [...]     │                                                              │
+│    }                     │                                                              │
+│                                                                                         │
 └─────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
