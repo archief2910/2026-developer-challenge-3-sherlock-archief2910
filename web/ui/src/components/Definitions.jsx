@@ -10,9 +10,9 @@ export const HEURISTIC_DEFINITIONS = {
     whyImportant: "Analyzing change outputs helps understand which outputs are payments to others versus returning funds to the sender's own wallet."
   },
   cioh: {
-    name: "Change Input Observation",
-    definition: "Detecting when a transaction input comes from a previous transaction where this address received change - suggesting the same wallet controls both addresses.",
-    whyImportant: "This heuristic helps identify when multiple addresses belong to the same wallet, revealing the user's total balance."
+    name: "Common Input Ownership (CIOH)",
+    definition: "The assumption that all inputs in a transaction belong to the same wallet/entity. When multiple addresses are used to fund a single transaction, they likely belong to the same person.",
+    whyImportant: "This is the foundational heuristic for clustering addresses together to identify wallet balances and spending behavior."
   },
   coinjoin: {
     name: "CoinJoin",
