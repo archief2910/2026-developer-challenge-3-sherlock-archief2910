@@ -11,6 +11,17 @@
 Sherlock is a comprehensive Bitcoin chain analysis engine that parses raw blockchain data and applies multiple heuristics to detect transaction patterns, classify behaviors, and identify entities. This document provides complete technical documentation including architecture, data flow, implementation details, and academic references.
 
 ---
+## Screenshots
+
+![Screenshot 1](images/WhatsApp%20Image%202026-03-16%20at%209.03.18%20AM.jpeg)
+![Screenshot 2](images/WhatsApp%20Image%202026-03-16%20at%209.03.34%20AM.jpeg)
+![Screenshot 3](images/WhatsApp%20Image%202026-03-16%20at%209.04.18%20AM.jpeg)
+![Screenshot 4](images/WhatsApp%20Image%202026-03-16%20at%209.04.41%20AM.jpeg)
+![Screenshot 5](images/WhatsApp%20Image%202026-03-16%20at%209.05.03%20AM.jpeg)
+![Screenshot 6](images/WhatsApp%20Image%202026-03-16%20at%209.05.23%20AM.jpeg)
+![Screenshot 7](images/WhatsApp%20Image%202026-03-16%20at%209.05.52%20AM.jpeg)
+![Screenshot 8](images/image.png)
+
 
 ## Technologies Used
 
